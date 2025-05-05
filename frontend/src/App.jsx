@@ -1,9 +1,9 @@
-import { StarRating } from './components'
+import { SignInForm } from './components'
 import './App.css'
 
 function App() {
   return (
-    <StarRating totalStars={5}/>
+    <SignInForm />
   )
 }
 
