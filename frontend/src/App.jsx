@@ -1,10 +1,12 @@
-import { SignInForm } from './components'
-import './App.css'
+import { Dashboard } from "./pages";
+import "./App.css";
 
 function App() {
   return (
-    <SignInForm />
-  )
+    <div>
+      <Dashboard />
+    </div>
+  );
 }
 
-export default App
+export default App;
