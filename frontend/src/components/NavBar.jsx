@@ -20,6 +20,7 @@ export default function NavBar() {
         <a href="#about" className={navLinkStyle}>About</a>
         <a href="#classes" className={navLinkStyle}>Classes</a>
         <a href="#assignments" className={navLinkStyle}>Assignments</a>
+        <a href="#marking" className={navLinkStyle}>Marking</a>
       </div>
     </nav>
   )
