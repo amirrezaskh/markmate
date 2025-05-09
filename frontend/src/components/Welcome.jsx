@@ -1,6 +1,6 @@
 export default function Welcome() {
     return (
-        <main className="min-h-screen bg-white dark:bg-gray-800 text-gray-900 dark:text-white flex items-center justify-center px-6">
+        <main className="h-[calc(100vh-84px)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white flex items-center justify-center px-6">
           <div className="max-w-3xl text-center">
             <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
               Welcome to <span className="text-sky-500">Mark Mate 👨🏻‍🏫</span>
