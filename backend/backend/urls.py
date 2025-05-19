@@ -22,7 +22,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
 from course.views import CourseViewSet, EnrollmentViewSet, AssignmentViewSet, SubmissionViewSet
-from user.views import CustomUserViewSet
+from user.views import CustomUserViewSet, CustomObtainAuthToken
 
 
 router = DefaultRouter()
@@ -35,6 +35,6 @@ router.register(r'users', CustomUserViewSet, basename='user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', obtain_auth_token, name="api_token_auth"),
+    path('login/', CustomObtainAuthToken.as_view(), name="api_token_auth"),
     path('', include(router.urls)),
 ]

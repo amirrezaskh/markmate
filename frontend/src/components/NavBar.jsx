@@ -9,7 +9,7 @@ export default function NavBar() {
   const navLinkStyle = "hover:text-sky-600 hover:scale-105 transform transition duration-200 px-2";
 
   function handleLogOut() {
-    sessionStorage.removeItem("loginToken");
+    sessionStorage.removeItem("userInfo");
     navigate("/");
   }
 
@@ -18,12 +18,12 @@ export default function NavBar() {
       <div className="flex flex-row">
         <Link to="/" className="text-xl font-bold px-5 text-sky-600 dark:text-sky-400"> Mark Mate </Link>
         {loggedIn ? (
-          <div 
+          <button 
             className="py-1 px-2 bg-sky-600 rounded-md text-white hover:bg-sky-700 transition"
             onClick={() => (handleLogOut())}
           >
             Log out
-          </div>  
+          </button>  
         ) : (
           <div className="flex flex-row justify-between">
             <Link to="/signup" className="py-1 px-2 bg-sky-600 rounded-md text-white hover:bg-sky-700 transition">Sign Up</Link>
@@ -33,10 +33,10 @@ export default function NavBar() {
       </div>
       
       <div className="flex flex-row justify-end">
-        <a href="#about" className={navLinkStyle}>About</a>
-        <a href="#classes" className={navLinkStyle}>Classes</a>
-        <a href="#assignments" className={navLinkStyle}>Assignments</a>
-        <a href="#marking" className={navLinkStyle}>Marking</a>
+        <Link to="/about" className={navLinkStyle}>About</Link>
+        <Link to="/courses" className={navLinkStyle}>Courses</Link>
+        <Link to="/assignments" className={navLinkStyle}>Assignments</Link>
+        <Link to="/marking" className={navLinkStyle}>Marking</Link>
         <button 
           onClick={toggleMode} 
           className="hover:scale-105 transform transition duration-200 px-2 mx-2 border-2 border-sky-600 rounded-md"

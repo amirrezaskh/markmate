@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { useNavigate } from "react-router";
 
 export default function SignUpForm() {
     const [info, changeInfo] = useReducer(
@@ -15,14 +16,42 @@ export default function SignUpForm() {
             confirmPassword: ""
         }
     );
+    const [tryMessage, toggleTryMessage] = useReducer(tryMessage => !tryMessage, false);
+    const navigate = useNavigate();
 
-    function submitForm(e) {
+    async function submitForm(e) {
         e.preventDefault();
-        console.log(info)
-        alert(info);
+        const data = {
+            first_name: info.firstName,
+            last_name: info.lastName,
+            email: info.email,
+            username: info.username,
+            role: info.role,
+            password: info.password
+        }
+        console.log(data)
+        const response = await fetch("http://localhost:8000/users/",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.status === 200) {
+            navigate("/login");
+        } else {
+            console.log(response)
+            toggleTryMessage();
+        }
     }
     return (
         <div className="h-[calc(100vh-84px)] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800">
+            {tryMessage && 
+                <p className="mb-4 p-3 text-sm text-red-500 bg-red-500/10 border border-red-500 rounded-md text-center">
+                    Please try again!
+                </p>
+            }
             <form onSubmit={submitForm} className="grid grid-cols-2 md:grid-cols-2 gap-4 justify-center content-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-6 rounded-xl shadow-lg w-full max-w-md mx-4">
                 <div className="flex flex-col">
                     <label htmlFor="firstName" className="block mb-1 font-medium">
@@ -135,7 +164,7 @@ export default function SignUpForm() {
                     type="submit"
                     className="col-span-2 w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition"
                 >
-                    Log In
+                    Sign up
                 </button>
             </form>
         </div>
