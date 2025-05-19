@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../hooks";
 
 export default function NavBar() {
-  const loggedIn = (sessionStorage.getItem("loginToken") !== null);
+  const loggedIn = (sessionStorage.getItem("userInfo") !== null);
   const { darkMode, toggleMode } = useTheme();
   const navigate = useNavigate()
 
