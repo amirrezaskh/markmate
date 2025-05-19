@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
-import { NavBar } from "../components";
+import { NavBar, Courses } from "../components";
 import { useEffect } from "react";
 
-export default function Courses() {
+export default function CoursesPage() {
     const loggedIn = (sessionStorage.getItem("userInfo") !== null)
     const navigate = useNavigate();
 
@@ -14,6 +14,7 @@ export default function Courses() {
     return (
         <div>
             <NavBar />
+            <Courses />
         </div>
     );
 }

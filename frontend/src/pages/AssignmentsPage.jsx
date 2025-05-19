@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { NavBar } from "../components";
 import { useEffect } from "react";
 
-export default function Assignments() {
+export default function AssignmentsPage() {
     const loggedIn = (sessionStorage.getItem("userInfo") !== null)
     const navigate = useNavigate();
 
@@ -11,6 +11,7 @@ export default function Assignments() {
             navigate("/login")
         }
     }, [loggedIn, navigate])
+    
     return (
         <div>
             <NavBar />

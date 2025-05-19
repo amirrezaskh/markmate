@@ -19,7 +19,7 @@ export default function NavBar() {
         <Link to="/" className="text-xl font-bold px-5 text-sky-600 dark:text-sky-400"> Mark Mate </Link>
         {loggedIn ? (
           <button 
-            className="py-1 px-2 bg-sky-600 rounded-md text-white hover:bg-sky-700 transition"
+            className="py-1 px-2 bg-sky-600 rounded-md text-white hover:bg-sky-700 cursor-pointer transition"
             onClick={() => (handleLogOut())}
           >
             Log out

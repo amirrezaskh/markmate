@@ -30,7 +30,7 @@ export default function SignInForm() {
             toggleIncorrectMessage()
         } else {
             const data = await response.json();
-            sessionStorage.setItem("userInfo", data);
+            sessionStorage.setItem("userInfo", JSON.stringify(data));
             navigate("/dashboard");
         }
     }
