@@ -3,7 +3,7 @@ import { CourseContext, ThemeContext } from "../contexts";
 
 export default function CourseProvider({children}) {
     const [courses, setCourses] = useState([]);
-
+    
     async function loadCourses () {
         const response = await fetch("http://localhost:8000/courses/",{
             method: "GET",

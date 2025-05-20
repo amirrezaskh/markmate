@@ -6,9 +6,11 @@ export default function Courses(){
 
     useEffect(() => {
         (async () => {
-            await loadCourses();
+            if (courses.length === 0) {
+                await loadCourses();
+            }
         })();
-    }, []);
+    }, [courses]);
 
     const coursesElements = courses.map((course, i) => (
         <li
@@ -20,13 +22,17 @@ export default function Courses(){
     ));
 
     return (
-        <div className="h-[calc(100vh-84px)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white flex flex-col px-50">
+        <div className=" flex flex-col">
             <h2 className="text-2xl font-semibold my-4">
                 Courses:
             </h2>
-            <ul className="space-y-2">
-                {coursesElements}
-            </ul>
+            {courses.length === 0 ?
+                <p className="text-gray-500 dark:text-gray-400">No courses found.</p>
+                :
+                <ul className="space-y-2">
+                    {coursesElements}
+                </ul>
+            }
         </div>
     )
 }
