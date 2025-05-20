@@ -8,7 +8,7 @@ export default function CoursesPage() {
 
     useEffect(() => {
         if (!loggedIn) {
-            navigate("/login")
+            navigate("/login");
         }
     }, [loggedIn, navigate])
     return (
@@ -16,7 +16,14 @@ export default function CoursesPage() {
             <NavBar />
             <div className=" max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
                 <Courses />
-                <CourseForm />
+                {
+                    (() => {
+                        const userInfo = sessionStorage.getItem("userInfo");
+                        if (!userInfo) return null;
+                        const { role } = JSON.parse(userInfo);
+                        return role === "instructor" ? <CourseForm /> : null;
+                    })()
+                }
             </div>
         </div>
     );

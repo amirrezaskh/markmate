@@ -1,7 +1,11 @@
 from django.shortcuts import render
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import Course, Enrollment, Assignment, Submission
+from user.models import CustomUser
+from user.serializers import CustomUserSerializer
 from .serializers import CourseSerializer, EnrollmentSerializer, AssignmentSerializer, SubmissionSerializer
 
 
@@ -10,6 +14,20 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.select_related('instructor').all()
     serializer_class = CourseSerializer
 
+    @action(methods=["get"], detail=True, url_path='assignments')
+    def get_assignments(self, request, pk=None):
+        course = self.get_object()
+        assignments = Assignment.objects.filter(course=course)
+        serializer = AssignmentSerializer(assignments, many=True)
+        return Response(serializer.data)
+
+    @action(methods=['get'], detail=True, url_path='students')
+    def get_students(self, request, pk=None):
+        course = self.get_object()
+        student_ids = Enrollment.objects.filter(course=course).values_list('student_id', flat=True)
+        students = CustomUser.objects.filter(id__in=student_ids)
+        serializer = CustomUserSerializer(students, many=True)
+        return Response(serializer.data)
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -21,6 +39,14 @@ class AssignmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Assignment.objects.select_related('course').all()
     serializer_class = AssignmentSerializer
+
+    @action(detail=True, methods=['get'], url_path='submissions')
+    def get_submissions(self, request, pk=None):
+        assignment = self.get_object()
+        submissions = Submission.objects.filter(assignment=assignment)
+        serializer = SubmissionSerializer(submissions, many=True)
+        return Response(serializer.data)
+    
 
 
 class SubmissionViewSet(viewsets.ModelViewSet):

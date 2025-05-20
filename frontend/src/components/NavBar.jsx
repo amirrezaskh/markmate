@@ -15,22 +15,25 @@ export default function NavBar() {
 
   return (
     <nav className="shadow-xl border-b-2 border-sky-600 flex flex-row justify-between px-30 py-4 bg-white text-gray-800 dark:bg-gray-900 dark:text-white">
-      <div className="flex flex-row">
-        <Link to="/" className="text-xl font-bold px-5 text-sky-600 dark:text-sky-400"> Mark Mate </Link>
-        {loggedIn ? (
+      {loggedIn ? (
+        <div className="flex flex-row">
+          <Link to="/dashboard" className="text-xl font-bold px-5 text-sky-600 dark:text-sky-400"> Mark Mate </Link>
           <button 
             className="py-1 px-2 bg-sky-600 rounded-md text-white hover:bg-sky-700 cursor-pointer transition"
             onClick={() => (handleLogOut())}
           >
             Log out
-          </button>  
-        ) : (
+          </button> 
+        </div>
+      ) : (
+        <div className="flex flex-row">
+          <Link to="/" className="text-xl font-bold px-5 text-sky-600 dark:text-sky-400"> Mark Mate </Link>
           <div className="flex flex-row justify-between">
             <Link to="/signup" className="py-1 px-2 bg-sky-600 rounded-md text-white hover:bg-sky-700 transition">Sign Up</Link>
             <Link to="/login" className="py-1 mx-2 px-2 border border-sky-600 rounded-md text-sky-600 hover:bg-sky-100 transition">Log In</Link>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       
       <div className="flex flex-row justify-end">
         <Link to="/about" className={navLinkStyle}>About</Link>
