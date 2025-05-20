@@ -12,18 +12,22 @@ export default function CoursesPage() {
         }
     }, [loggedIn, navigate])
     return (
-        <div className="h-[calc(100vh)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
             <NavBar />
-            <div className=" max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-                <Courses />
-                {
-                    (() => {
-                        const userInfo = sessionStorage.getItem("userInfo");
-                        if (!userInfo) return null;
-                        const { role } = JSON.parse(userInfo);
-                        return role === "instructor" ? <CourseForm /> : null;
-                    })()
-                }
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+                    <Courses />
+                </section>
+                {(() => {
+                    const userInfo = sessionStorage.getItem("userInfo");
+                    if (!userInfo) return null;
+                    const { role } = JSON.parse(userInfo);
+                    return role === "instructor" ? (
+                        <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+                            <CourseForm />
+                        </section>
+                    ) : null;
+                })()}
             </div>
         </div>
     );

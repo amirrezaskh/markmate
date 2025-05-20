@@ -45,7 +45,7 @@ class Assignment(models.Model):
 class Submission(models.Model):
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    submission_file = models.FileField(upload_to=submission_file_path)
+    submission_file = models.FileField(upload_to=submission_file_path, blank=True)
     score = models.FloatField(default=0.0)
     created_at = models.DateTimeField(auto_now_add=True)
 

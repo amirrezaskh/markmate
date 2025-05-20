@@ -1,7 +1,124 @@
-export default function Main() {
-    return (
-        <main className="h-[calc(100vh-84px)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white flex items-center justify-center px-6">
+import { useEffect, useState } from "react"
+import { FaBook, FaClipboardList, FaCheckCircle } from "react-icons/fa"
 
+export default function Main() {
+    const [courses, setCourses] = useState([])
+    const [assignments, setAssignments] = useState([])
+    const [submissions, setSubmissions] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch("http://localhost:8000/users/courses/",{
+                method: "GET",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await response.json()
+            setCourses(data);
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch("http://localhost:8000/users/assignments/",{
+                method: "GET",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await response.json()
+            setAssignments(data);
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch("http://localhost:8000/users/submissions/",{
+                method: "GET",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await response.json()
+            setSubmissions(data);
+        })();
+    }, []);
+
+    const coursesElements = courses.map((course, i) => (
+        <li
+            key={course.id || i}
+            className="flex items-center gap-4 p-4 rounded-lg border border-sky-300 bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-700 dark:to-sky-800 hover:from-sky-100 hover:to-sky-200 dark:hover:from-sky-600 dark:hover:to-sky-700 transition-shadow shadow-md hover:shadow-lg cursor-pointer"
+        >
+            <FaBook className="text-sky-500 dark:text-sky-300 text-xl flex-shrink-0" />
+            <span className="font-semibold text-sky-900 dark:text-sky-200">{course.title}</span>
+        </li>
+    ))
+
+    const assignmentsElements = assignments.map((assignment, i) => (
+        <li
+            key={assignment.id || i}
+            className="flex items-center gap-4 p-4 rounded-lg border border-purple-300 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-700 dark:to-purple-800 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-600 dark:hover:to-purple-700 transition-shadow shadow-md hover:shadow-lg cursor-pointer"
+        >
+            <FaClipboardList className="text-purple-500 dark:text-purple-300 text-xl flex-shrink-0" />
+            <span className="font-semibold text-purple-900 dark:text-purple-200">{assignment.title}</span>
+        </li>
+    ))
+
+    const submissionsElements = submissions.map((submission, i) => (
+        <li
+            key={submission.id || i}
+            className="flex items-center gap-4 p-4 rounded-lg border border-green-300 bg-gradient-to-r from-green-50 to-green-100 dark:from-green-700 dark:to-green-800 hover:from-green-100 hover:to-green-200 dark:hover:from-green-600 dark:hover:to-green-700 transition-shadow shadow-md hover:shadow-lg cursor-pointer"
+        >
+            <FaCheckCircle className="text-green-500 dark:text-green-300 text-xl flex-shrink-0" />
+            <span className="font-semibold text-green-900 dark:text-green-200">Submission #{submission.id}</span>
+        </li>
+    ))
+
+    return (
+        <main className="min-h-[calc(100vh-84px)] bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-8">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                    <h2 className="text-2xl font-bold mb-4">My Courses</h2>
+                    {courses.length === 0 ?
+                        <p className="text-gray-500 dark:text-gray-400">No courses found.</p>
+                        :
+                        <ul className="space-y-3">
+                            {coursesElements}
+                        </ul>
+                    }
+                </section>
+
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                    <h2 className="text-2xl font-bold mb-4">My Assignments</h2>
+                    {assignments.length === 0 ?
+                        <p className="text-gray-500 dark:text-gray-400">No assignments found.</p>
+                        :
+                        <ul className="space-y-3">
+                            {assignmentsElements}
+                        </ul>
+                    }
+                </section>
+
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                    <h2 className="text-2xl font-bold mb-4">My Marks</h2>
+                    {submissions.length === 0 ?
+                        <p className="text-gray-500 dark:text-gray-400">No submissions found.</p>
+                        :
+                        <ul className="space-y-3">
+                            {submissionsElements}
+                        </ul>
+                    }
+                </section>
+
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                    <h2 className="text-2xl font-bold mb-4">Profile Info</h2>
+                    {/* Add profile details here */}
+                </section>
+            </div>
         </main>
     )
 }

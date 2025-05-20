@@ -46,7 +46,7 @@ export default function SignUpForm() {
         }
     }
     return (
-        <div className="h-[calc(100vh-84px)] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800">
+        <div className="min-h-[calc(100vh-77px)] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800">
             {tryMessage && 
                 <p className="mb-4 p-3 text-sm text-red-500 bg-red-500/10 border border-red-500 rounded-md text-center">
                     Please try again!
