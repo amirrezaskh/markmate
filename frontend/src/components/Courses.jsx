@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react"
 import { useCourse } from "../hooks";
 
-export default function Courses(){
-    const {courses, loadCourses} = useCourse();
-
-    useEffect(() => {
-        (async () => {
-            if (courses.length === 0) {
-                await loadCourses();
-            }
-        })();
-    }, [courses]);
-
+export default function Courses({courses, currentCourseId, setCurrentCourseId}){
     const coursesElements = courses.map((course, i) => (
         <li
             key={i}
@@ -31,6 +21,7 @@ export default function Courses(){
                     {courses.map((course, i) => (
                         <li
                             key={i}
+                            onClick={() => setCurrentCourseId(i)}
                             className="p-4 rounded-md bg-sky-100 dark:bg-sky-700 hover:bg-sky-200 dark:hover:bg-sky-800 transition shadow-sm"
                         >
                             <h3 className="text-lg font-medium">{course.title}</h3>
