@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { FaBook, FaClipboardList, FaCheckCircle } from "react-icons/fa"
+import { Link } from "react-router"
 
 export default function Main() {
     const [courses, setCourses] = useState([])
     const [assignments, setAssignments] = useState([])
     const [submissions, setSubmissions] = useState([])
-
+    
     useEffect(() => {
         (async () => {
             const response = await fetch("http://localhost:8000/users/courses/",{
@@ -49,13 +50,14 @@ export default function Main() {
     }, []);
 
     const coursesElements = courses.map((course, i) => (
-        <li
+        <Link
+            to={`/course/:${course.id}`}
             key={course.id || i}
             className="flex items-center gap-4 p-4 rounded-lg border border-sky-300 bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-700 dark:to-sky-800 hover:from-sky-100 hover:to-sky-200 dark:hover:from-sky-600 dark:hover:to-sky-700 transition-shadow shadow-md hover:shadow-lg cursor-pointer"
         >
             <FaBook className="text-sky-500 dark:text-sky-300 text-xl flex-shrink-0" />
             <span className="font-semibold text-sky-900 dark:text-sky-200">{course.title}</span>
-        </li>
+        </Link>
     ))
 
     const assignmentsElements = assignments.map((assignment, i) => (
@@ -86,9 +88,9 @@ export default function Main() {
                     {courses.length === 0 ?
                         <p className="text-gray-500 dark:text-gray-400">No courses found.</p>
                         :
-                        <ul className="space-y-3">
+                        <div className="space-y-3">
                             {coursesElements}
-                        </ul>
+                        </div>
                     }
                 </section>
 

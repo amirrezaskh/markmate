@@ -1,4 +1,4 @@
-import { Dashboard, Home, Login, SignUp, CoursesPage, AssignmentsPage, About, Marking } from "./pages";
+import { Dashboard, Home, Login, SignUp, CoursesPage, AssignmentsPage, About, Marking, CoursePage } from "./pages";
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CourseProvider } from "./providers";
 import "./App.css";
@@ -17,6 +17,7 @@ function App() {
             <Route path="/assignments" element={<AssignmentsPage />}/>
             <Route path="/about" element={<About />}/>
             <Route path="/marking" element={<Marking />}/>
+            <Route path="/course/:id" element={<CoursePage />}/>
           </Routes>
         </CourseProvider>
       </ThemeProvider>

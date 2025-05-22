@@ -1,7 +1,7 @@
+import { Link } from "react-router";
 import { useCourse } from "../hooks";
 
 export default function Courses({currentCourseId, setCurrentCourseId, setNewCourseView}){
-
     const {courses} = useCourse();
     
     const coursesElements = courses.map((course, i) => (
@@ -11,6 +11,7 @@ export default function Courses({currentCourseId, setCurrentCourseId, setNewCour
             className="p-4 rounded-md bg-sky-100 dark:bg-sky-700 hover:bg-sky-200 dark:hover:bg-sky-800 transition shadow-sm cursor-pointer"
         >
             <h3 className="text-lg font-medium">{course.title}</h3>
+            
         </li>
     ));
 

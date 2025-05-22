@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function CourseDetail({courses, currentCourseId, role, toggleNewCourseView}) {
     const course = courses[currentCourseId];
     if (!course) return <p className="text-gray-500">No course selected.</p>;
@@ -14,7 +16,10 @@ export default function CourseDetail({courses, currentCourseId, role, toggleNewC
                     null
                 }
             </div>
-            <p className="text-gray-700 dark:text-gray-300">{course.description}</p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4 pb-2">{course.description}</p>
+            <Link to={`/course/:${course.id}`} className="text-sky-600">
+                Open Course
+            </Link>
         </div>
     )
 }
