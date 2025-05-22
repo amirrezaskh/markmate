@@ -1,4 +1,4 @@
-export default function Assignments({assignments, currentAssignmentId, setCurrentAssignmentId, setNewAssignmentId}) {
+export default function Assignments({assignments, setCurrentAssignmentId}) {
     const assignmentsElements = assignments.map((assignment, i) => (
         <li
             key={i}
@@ -14,7 +14,6 @@ export default function Assignments({assignments, currentAssignmentId, setCurren
 
     function toggleView(i) {
         setCurrentAssignmentId(i);
-        setNewAssignmentId(false);
     }
     
     return (

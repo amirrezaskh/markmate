@@ -1,4 +1,9 @@
-export default function Courses({courses, currentCourseId, setCurrentCourseId, setNewCourseView}){
+import { useCourse } from "../hooks";
+
+export default function Courses({currentCourseId, setCurrentCourseId, setNewCourseView}){
+
+    const {courses} = useCourse();
+    
     const coursesElements = courses.map((course, i) => (
         <li
             key={i}

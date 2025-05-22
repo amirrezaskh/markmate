@@ -79,7 +79,7 @@ export default function Main() {
     ))
 
     return (
-        <main className="min-h-[calc(100vh-84px)] bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-8">
+        <main className="min-h-[calc(100vh-77px)] bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-8">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
                 <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
                     <h2 className="text-2xl font-bold mb-5">My Courses</h2>

@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function AssignmentsPage() {
     const [assignments, setAssignments] = useState([]);
-    const [newAssignmentView, setNewAssignmentView] = useState(false)
     const [currentAssignmentId, setCurrentAssignmentId] = useState(0)
-
-    function toggleNewAssignmentView() {
-        setNewAssignmentView(newAssignmentView => !newAssignmentView);
-    }
 
     const loggedIn = (sessionStorage.getItem("userInfo") !== null)
     const navigate = useNavigate();
@@ -32,7 +27,7 @@ export default function AssignmentsPage() {
             const data = await response.json()
             setAssignments(data); 
         })();
-    })
+    }, [])
 
     const userInfo = sessionStorage.getItem("userInfo");
     if (!userInfo) return null;
@@ -46,26 +41,15 @@ export default function AssignmentsPage() {
                 <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
                     <Assignments 
                         assignments={assignments}
-                        currentAssignmentId={currentAssignmentId}
                         setCurrentAssignmentId={setCurrentAssignmentId}
-                        setNewAssignmentView={setNewAssignmentView}
                     />
                 </section>
-                    { 
-                        newAssignmentView ?
-                        <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                            <AssignmentForm />
-                        </section>
-                        :
-                        <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                            <AssignmentDetail 
-                                assignments={assignments}
-                                currentAssignmentId={currentAssignmentId}
-                                role={role}
-                                toggleNewAssignmentView={toggleNewAssignmentView}
-                            />
-                        </section>
-                    }
+                    <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+                        <AssignmentDetail 
+                            assignments={assignments}
+                            currentAssignmentId={currentAssignmentId}
+                        />
+                    </section>
             </div>
         </div>
     );

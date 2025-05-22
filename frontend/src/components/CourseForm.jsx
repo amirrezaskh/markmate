@@ -2,21 +2,38 @@ import { useReducer, useState } from "react"
 import { useCourse } from "../hooks";
 
 export default function CourseForm() {
-    const {courses, addCourse} = useCourse()
-    const [course, changeCourse] = useReducer(
-        (course, e) => ({
+    const {addCourse} = useCourse()
+    const [course, changeCourse] = useReducer((course, e) => {
+        if (e === "reset") {
+            return {
+                title: "",
+                description: ""
+            };
+        }
+        return {
             ...course,
             [e.target.name]: e.target.value
-        }),
-        {
-            title: "",
-            description: ""
-        }
-    );
+        };
+    }, {
+        title: "",
+        description: ""
+    });
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(course);
+        const response = await fetch("http://localhost:8000/users/course/",{
+                method: "POST",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(course)
+            });
+        console.log(response.status)
+        if (response.status === 201) {
+            changeCourse("reset");
+            addCourse(course);
+        }
     }
     return (
         <div className="w-full max-w-md mx-auto">

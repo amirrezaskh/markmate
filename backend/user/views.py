@@ -9,6 +9,7 @@ from .serializers import CustomUserSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework import status
 
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -43,6 +44,14 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         courses = Course.objects.filter(id__in=course_ids)
         serilizer = CourseSerializer(courses, many=True)
         return Response(serilizer.data)
+    
+    @action(methods=['post'], detail=False, url_path="course")
+    def post_course(self, request, format=None):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(instructor=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(methods=['get'], detail=False, url_path="assignments")
     def get_assignments(self, request, pk=None):

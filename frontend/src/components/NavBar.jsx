@@ -18,7 +18,7 @@ export default function NavBar() {
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 sm:px-8 py-3">
         
         <Link to={loggedIn ? "/dashboard" : "/"} className="text-xl sm:text-2xl font-bold text-sky-600 dark:text-sky-400">
-          Mark Mate
+          Mark Mate 👨🏻‍🏫
         </Link>
 
         <div className="hidden md:flex gap-4">
