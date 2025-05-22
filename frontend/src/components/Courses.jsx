@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react"
-import { useCourse } from "../hooks";
-
-export default function Courses({courses, currentCourseId, setCurrentCourseId}){
+export default function Courses({courses, currentCourseId, setCurrentCourseId, setNewCourseView}){
     const coursesElements = courses.map((course, i) => (
         <li
             key={i}
-            className="p-4 rounded-lg bg-sky-100 dark:bg-sky-600 hover:bg-sky-200 dark:hover:bg-sky-800 transition cursor-pointer shadow-sm"
+            onClick={() => toggleView(i)}
+            className="p-4 rounded-md bg-sky-100 dark:bg-sky-700 hover:bg-sky-200 dark:hover:bg-sky-800 transition shadow-sm cursor-pointer"
         >
-            {course.title}
+            <h3 className="text-lg font-medium">{course.title}</h3>
         </li>
     ));
+
+    function toggleView(i) {
+        setCurrentCourseId(i);
+        setNewCourseView(false);
+    }
 
     return (
         <div className=" flex flex-col">
@@ -18,17 +21,9 @@ export default function Courses({courses, currentCourseId, setCurrentCourseId}){
                 <p className="text-gray-500 dark:text-gray-400">No courses found.</p>
             ) : (
                 <ul className="space-y-3">
-                    {courses.map((course, i) => (
-                        <li
-                            key={i}
-                            onClick={() => setCurrentCourseId(i)}
-                            className="p-4 rounded-md bg-sky-100 dark:bg-sky-700 hover:bg-sky-200 dark:hover:bg-sky-800 transition shadow-sm"
-                        >
-                            <h3 className="text-lg font-medium">{course.title}</h3>
-                        </li>
-                    ))}
+                    {coursesElements}
                 </ul>
             )}
         </div>
     )
-}
+} 
