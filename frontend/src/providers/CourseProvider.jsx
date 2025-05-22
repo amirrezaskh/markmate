@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { CourseContext, ThemeContext } from "../contexts";
+import { useState } from "react";
+import { CourseContext } from "../contexts";
 
 export default function CourseProvider({children}) {
     const [courses, setCourses] = useState([]);
     
     async function loadCourses () {
-        const response = await fetch("http://localhost:8000/courses/",{
+        const response = await fetch("http://localhost:8000/users/courses/",{
             method: "GET",
             headers: {
                 "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

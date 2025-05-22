@@ -1,4 +1,7 @@
-export default function AssignmentDetail({assignments, currentAssignmentId}) {
+import { useAssignment } from "../hooks";
+
+export default function AssignmentDetail({ currentAssignmentId }) {
+    const { assignments } = useAssignment(); 
     const assignment = assignments[currentAssignmentId];
     if (!assignment) return <p className="text-gray-500">No course selected.</p>;
     const deadline = new Date(assignment.deadline);

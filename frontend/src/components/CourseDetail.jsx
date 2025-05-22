@@ -1,7 +1,10 @@
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
+import { useCourse } from "../hooks";
 
-export default function CourseDetail({courses, currentCourseId, role, toggleNewCourseView}) {
-    const course = courses[currentCourseId];
+export default function CourseDetail({currentCourseId=null, role="student", toggleNewCourseView=null, openCourseView=false}) {
+    const {courses} = useCourse();
+    const { id } = useParams();
+    let course = currentCourseId !== null ? courses[currentCourseId] : courses.find(item => item.id == id);
     if (!course) return <p className="text-gray-500">No course selected.</p>;
 
     return (
@@ -17,9 +20,14 @@ export default function CourseDetail({courses, currentCourseId, role, toggleNewC
                 }
             </div>
             <p className="text-gray-700 dark:text-gray-300 mb-4 pb-2">{course.description}</p>
-            <Link to={`/course/:${course.id}`} className="text-sky-600">
-                Open Course
-            </Link>
+            {
+                openCourseView ?
+                <Link to={`/course/${course.id}`} className="text-sky-600">
+                    Open Course
+                </Link>
+                :
+                null
+            }
         </div>
     )
 }

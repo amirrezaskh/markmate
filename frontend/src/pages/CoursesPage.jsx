@@ -37,8 +37,7 @@ export default function CoursesPage() {
             <NavBar />
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                    <Courses 
-                        courses={courses} 
+                    <Courses  
                         currentCourseId={currentCourseId} 
                         setCurrentCourseId={setCurrentCourseId}
                         setNewCourseView={setNewCourseView}
@@ -51,10 +50,10 @@ export default function CoursesPage() {
                     :
                     <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
                         <CourseDetail 
-                            courses={courses} 
                             currentCourseId={currentCourseId} 
                             role={role} 
                             toggleNewCourseView={toggleNewCourseView}
+                            openCourseView={true}
                         />
                     </section>
                 }

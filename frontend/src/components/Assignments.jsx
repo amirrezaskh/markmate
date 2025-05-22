@@ -1,4 +1,8 @@
-export default function Assignments({assignments, setCurrentAssignmentId}) {
+import { useAssignment } from "../hooks";
+
+export default function Assignments({courseAssignments=null, setCurrentAssignmentId=null}) {
+    let { assignments } = useAssignment();
+    assignments = courseAssignments !== null ? courseAssignments : assignments; 
     const assignmentsElements = assignments.map((assignment, i) => (
         <li
             key={i}

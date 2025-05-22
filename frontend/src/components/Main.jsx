@@ -1,39 +1,28 @@
 import { useEffect, useState } from "react"
 import { FaBook, FaClipboardList, FaCheckCircle } from "react-icons/fa"
 import { Link } from "react-router"
+import { useAssignment, useCourse } from "../hooks"
 
 export default function Main() {
-    const [courses, setCourses] = useState([])
-    const [assignments, setAssignments] = useState([])
+    const { courses, loadCourses } = useCourse();
+    const { assignments, loadAssignments } = useAssignment();
     const [submissions, setSubmissions] = useState([])
     
     useEffect(() => {
         (async () => {
-            const response = await fetch("http://localhost:8000/users/courses/",{
-                method: "GET",
-                headers: {
-                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
-                    "Content-Type": "application/json"
-                }
-            });
-            const data = await response.json()
-            setCourses(data);
+            if (courses.length === 0) {
+                await loadCourses();
+            }
         })();
-    }, []);
+    }, [courses]);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch("http://localhost:8000/users/assignments/",{
-                method: "GET",
-                headers: {
-                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
-                    "Content-Type": "application/json"
-                }
-            });
-            const data = await response.json()
-            setAssignments(data);
+            if (assignments.length === 0) {
+                await loadAssignments();
+            }
         })();
-    }, []);
+    }, [assignments]);
 
     useEffect(() => {
         (async () => {
@@ -51,7 +40,7 @@ export default function Main() {
 
     const coursesElements = courses.map((course, i) => (
         <Link
-            to={`/course/:${course.id}`}
+            to={`/course/${course.id}`}
             key={course.id || i}
             className="flex items-center gap-4 p-4 rounded-lg border border-sky-300 bg-gradient-to-r from-sky-50 to-sky-100 dark:from-sky-700 dark:to-sky-800 hover:from-sky-100 hover:to-sky-200 dark:hover:from-sky-600 dark:hover:to-sky-700 transition-shadow shadow-md hover:shadow-lg cursor-pointer"
         >
@@ -61,13 +50,14 @@ export default function Main() {
     ))
 
     const assignmentsElements = assignments.map((assignment, i) => (
-        <li
+        <Link
+            to={`/assignment/${assignment.id}`}
             key={assignment.id || i}
             className="flex items-center gap-4 p-4 rounded-lg border border-purple-300 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-700 dark:to-purple-800 hover:from-purple-100 hover:to-purple-200 dark:hover:from-purple-600 dark:hover:to-purple-700 transition-shadow shadow-md hover:shadow-lg cursor-pointer"
         >
             <FaClipboardList className="text-purple-500 dark:text-purple-300 text-xl flex-shrink-0" />
             <span className="font-semibold text-purple-900 dark:text-purple-200">{assignment.title}</span>
-        </li>
+        </Link>
     ))
 
     const submissionsElements = submissions.map((submission, i) => (
@@ -99,9 +89,9 @@ export default function Main() {
                     {assignments.length === 0 ?
                         <p className="text-gray-500 dark:text-gray-400">No assignments found.</p>
                         :
-                        <ul className="space-y-3">
+                        <div className="space-y-3">
                             {assignmentsElements}
-                        </ul>
+                        </div>
                     }
                 </section>
 
