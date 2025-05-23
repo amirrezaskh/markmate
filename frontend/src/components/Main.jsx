@@ -67,9 +67,9 @@ export default function Main() {
     ))
 
     return (
-        <main className="min-h-[calc(100vh-77px)] bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-8">
+        <main className="min-h-[calc(100vh-77px)] bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-8">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-900">
                     <h2 className="text-2xl font-bold mb-5">My Courses</h2>
                     {courses.length === 0 ?
                         <p className="text-gray-500 dark:text-gray-400">No courses found.</p>
@@ -80,7 +80,7 @@ export default function Main() {
                     }
                 </section>
 
-                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-900">
                     <h2 className="text-2xl font-bold mb-5">My Assignments</h2>
                     {assignments.length === 0 ?
                         <p className="text-gray-500 dark:text-gray-400">No assignments found.</p>
@@ -91,7 +91,7 @@ export default function Main() {
                     }
                 </section>
 
-                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-900">
                     <h2 className="text-2xl font-bold mb-5">My Marks</h2>
                     {submissions.length === 0 ?
                         <p className="text-gray-500 dark:text-gray-400">No submissions found.</p>
@@ -102,7 +102,7 @@ export default function Main() {
                     }
                 </section>
 
-                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-900">
                     <h2 className="text-2xl font-bold mb-5">Profile Info</h2>
                     {/* Add profile details here */}
                 </section>

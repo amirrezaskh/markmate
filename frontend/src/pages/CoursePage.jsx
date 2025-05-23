@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
-import { AssignmentForm, Assignments, CourseDetail, NavBar } from "../components"
+import { AssignmentForm, Assignments, CourseDetail, NavBar, Footer } from "../components"
 import { useParams } from "react-router";
 
 export default function CoursePage() {
@@ -40,6 +40,7 @@ export default function CoursePage() {
                         <Assignments courseAssignments={assignments}/>
                     </section>
                 </div>
+                <Footer />
             </div>
         );
 }

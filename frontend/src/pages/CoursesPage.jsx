@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { NavBar, Courses, CourseForm, CourseDetail } from "../components";
+import { NavBar, Courses, CourseForm, CourseDetail, Footer } from "../components";
 import { useEffect, useReducer, useState } from "react";
 import { useCourse } from "../hooks";
 
@@ -56,6 +56,7 @@ export default function CoursesPage() {
                     </section>
                 }
             </div>
+            <Footer />
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { NavBar, Main } from "../components"
+import { NavBar, Main, Footer } from "../components"
 import { useEffect } from "react";
 
 export default function Dashboard() {
@@ -15,6 +15,7 @@ export default function Dashboard() {
         <div>
             <NavBar />
             <Main />
+            <Footer />
         </div>
     )
 }

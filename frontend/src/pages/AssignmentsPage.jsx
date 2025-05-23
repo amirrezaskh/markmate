@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { AssignmentDetail, AssignmentForm, Assignments, NavBar } from "../components";
+import { AssignmentDetail, AssignmentForm, Assignments, NavBar, Footer } from "../components";
 import { useEffect, useState } from "react";
 import { useAssignment } from "../hooks";
 
@@ -38,6 +38,7 @@ export default function AssignmentsPage() {
                     />
                 </section>
             </div>
+            <Footer />
         </div>
     );
 }

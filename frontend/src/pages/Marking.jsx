@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { NavBar } from "../components";
+import { NavBar, Footer } from "../components";
 import { useEffect } from "react";
 
 export default function Marking() {
@@ -14,6 +14,7 @@ export default function Marking() {
     return (
         <div>
             <NavBar />
+            <Footer />
         </div>
     );
 }

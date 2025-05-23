@@ -1,4 +1,4 @@
-import { AssignmentDetail, NavBar, SubmissionForm, Submissions } from "../components"
+import { AssignmentDetail, NavBar, SubmissionForm, Submissions, Footer } from "../components"
 
 export default function AssignmentPage() {
     return (
@@ -15,6 +15,7 @@ export default function AssignmentPage() {
                     <Submissions/>
                 </section>
             </div>
+            <Footer />
         </div>
     )
 }
