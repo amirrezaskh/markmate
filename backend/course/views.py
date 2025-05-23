@@ -7,7 +7,7 @@ from .models import Course, Enrollment, Assignment, Submission
 from user.models import CustomUser
 from user.serializers import CustomUserSerializer
 from .serializers import CourseSerializer, EnrollmentSerializer, AssignmentSerializer, SubmissionSerializer
-
+from rest_framework import status
 
 class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -40,6 +40,15 @@ class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.select_related('course').all()
     serializer_class = AssignmentSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print("Serializer errors:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
     @action(detail=True, methods=['get'], url_path='submissions')
     def get_submissions(self, request, pk=None):
         assignment = self.get_object()

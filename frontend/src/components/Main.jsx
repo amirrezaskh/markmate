@@ -12,13 +12,13 @@ export default function Main() {
         (async () => {
             await loadCourses();
         })();
-    }, [courses]);
+    }, []);
 
     useEffect(() => {
         (async () => {
             await loadAssignments();
         })();
-    }, [assignments]);
+    }, []);
 
     useEffect(() => {
         (async () => {

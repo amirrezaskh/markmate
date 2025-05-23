@@ -23,6 +23,9 @@ class EnrollmentSerializer(ModelSerializer):
 
 class AssignmentSerializer(ModelSerializer):
     submissions = SerializerMethodField()
+    assignment_file = serializers.FileField(required=False, allow_null=True)
+    public_test_file = serializers.FileField(required=False, allow_null=True)
+    private_test_file = serializers.FileField(required=False, allow_null=True)
 
     class Meta:
         model = Assignment
@@ -37,3 +40,9 @@ class SubmissionSerializer(ModelSerializer):
     class Meta:
         model = Submission
         fields = ['id', 'student', 'assignment', 'submission_file', 'score', 'created_at']
+
+class AutoSubmissionSerializer(ModelSerializer):
+    class Meta:
+        model = Submission
+        fields = ['id', 'student', 'assignment', 'submission_file', 'score', 'created_at']
+        read_only_fields = ['student']

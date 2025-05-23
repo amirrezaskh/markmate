@@ -1,4 +1,4 @@
-import { AssignmentDetail, NavBar, SubmissionForm } from "../components"
+import { AssignmentDetail, NavBar, SubmissionForm, Submissions } from "../components"
 
 export default function AssignmentPage() {
     return (
@@ -10,6 +10,9 @@ export default function AssignmentPage() {
                 </section>
                 <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
                     <SubmissionForm/>
+                </section>
+                <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+                    <Submissions/>
                 </section>
             </div>
         </div>
