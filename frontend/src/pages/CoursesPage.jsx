@@ -16,9 +16,7 @@ export default function CoursesPage() {
 
     useEffect(() => {
         (async () => {
-            if (courses.length === 0) {
-                await loadCourses();
-            }
+            await loadCourses();
         })();
     }, [courses]);
 
@@ -52,7 +50,7 @@ export default function CoursesPage() {
                         <CourseDetail 
                             currentCourseId={currentCourseId} 
                             role={role} 
-                            toggleNewCourseView={toggleNewCourseView}
+                            toggleCreateView={toggleNewCourseView}
                             openCourseView={true}
                         />
                     </section>

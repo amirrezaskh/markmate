@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { Assignments, CourseDetail, NavBar } from "../components"
+import { useEffect, useReducer, useState } from "react";
+import { AssignmentForm, Assignments, CourseDetail, NavBar } from "../components"
 import { useParams } from "react-router";
 
 export default function CoursePage() {
+    const [createView, toggleCreateView] = useReducer(createView => !createView, false)
     const [assignments, setAssignments] = useState([]);
     const { id } = useParams();
 
@@ -20,12 +21,20 @@ export default function CoursePage() {
         })();
     }, []);
 
+    const userInfo = sessionStorage.getItem("userInfo");
+    if (!userInfo) return null;
+    const { role } = JSON.parse(userInfo);
     return (
             <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
                 <NavBar />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                        <CourseDetail />
+                        {
+                            createView ? 
+                            <AssignmentForm toggleCreateView={toggleCreateView}/>
+                            : 
+                            <CourseDetail role={role} toggleCreateView={toggleCreateView} />
+                        }
                     </section>
                     <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
                         <Assignments courseAssignments={assignments}/>

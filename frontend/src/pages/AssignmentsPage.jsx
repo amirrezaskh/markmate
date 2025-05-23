@@ -12,9 +12,7 @@ export default function AssignmentsPage() {
 
     useEffect(() => {
         (async () => {
-            if (assignments.length === 0) {
-                await loadAssignments();
-            }
+            await loadAssignments();
         })();
     }, [assignments]);
 
@@ -36,6 +34,7 @@ export default function AssignmentsPage() {
                 <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
                     <AssignmentDetail
                         currentAssignmentId={currentAssignmentId}
+                        openAssignmentView={true}
                     />
                 </section>
             </div>

@@ -1,9 +1,11 @@
+import { Link, useParams } from "react-router";
 import { useAssignment } from "../hooks";
 
-export default function AssignmentDetail({ currentAssignmentId }) {
+export default function AssignmentDetail({ currentAssignmentId=null, openAssignmentView=false}) {
     const { assignments } = useAssignment(); 
-    const assignment = assignments[currentAssignmentId];
-    if (!assignment) return <p className="text-gray-500">No course selected.</p>;
+    const { id } = useParams();
+    const assignment = currentAssignmentId !== null ? assignments[currentAssignmentId] : assignments.find(eachAssignment => eachAssignment.id == id);
+    if (!assignment) return <p className="text-gray-500">No assignment selected.</p>;
     const deadline = new Date(assignment.deadline);
 
     return (
@@ -12,7 +14,46 @@ export default function AssignmentDetail({ currentAssignmentId }) {
                 <h2 className="text-2xl font-bold ">{assignment.title}</h2>
             </div>
             <p className="text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">{assignment.description}</p>
-            <p className="font-semibold">Deadline: {deadline.toDateString()}</p>
+            <div className="flex flex-row justify-between">
+                <div className="flex flex-col space-y-2">
+                    <p className="font-semibold">Deadline: {deadline.toDateString()}</p>
+                {
+                    openAssignmentView ?
+                    <Link to={`/assignment/${assignment.id}`} className="text-sky-600 font-semibold hover:underline">
+                        Open Assignment
+                    </Link>
+                    :
+                    null
+                }
+                </div>
+                
+                <div className="mb-4 space-y-2">
+                    {assignment.assignment_file && (
+                        <a
+                            href={assignment.assignment_file}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sky-600 font-semibold hover:underline block"
+                        >
+                            Assignment File
+                        </a>
+                    )}
+                    {assignment.public_test_file && (
+                        <a
+                            href={assignment.public_test_file}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sky-600 font-semibold hover:underline block"
+                        >
+                            Test File
+                        </a>
+                    )}
+                </div>
+                
+                
+            </div>
+            
+
         </div>
     )
 }

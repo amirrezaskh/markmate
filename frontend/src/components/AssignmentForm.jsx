@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 
-export default function AssignmentForm() {
+export default function AssignmentForm({toggleCreateView}) {
     const [assignment, changeassignment] = useReducer(
             (assignment, e) => ({
                 ...assignment,
@@ -18,7 +18,12 @@ export default function AssignmentForm() {
         }
         return (
             <div className="w-full max-w-md mx-auto">
-                <h2 className="text-2xl font-bold mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">Create New assignment</h2>
+                <div className="flex flex-row justify-between mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">
+                    <h2 className="text-2xl font-bold ">Create New assignment</h2>
+                    <button onClick={toggleCreateView} className="text-sm sm:text-base bg-sky-600 hover:bg-sky-700 text-white px-3 py-1 rounded-md transition cursor-pointer">
+                    Back
+                </button>
+                </div>                
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
                         <label htmlFor="title" className="block mb-1 font-medium">Title</label>
