@@ -19,7 +19,7 @@ export default function AssignmentForm({toggleCreateView}) {
         return (
             <div className="w-full max-w-md mx-auto">
                 <div className="flex flex-row justify-between mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">
-                    <h2 className="text-2xl font-bold ">Create New assignment</h2>
+                    <h2 className="text-2xl font-bold">Create New assignment</h2>
                     <button onClick={toggleCreateView} className="text-sm sm:text-base bg-sky-600 hover:bg-sky-700 text-white px-3 py-1 rounded-md transition cursor-pointer">
                     Back
                 </button>
