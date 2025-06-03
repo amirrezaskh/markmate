@@ -1,9 +1,10 @@
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { useAssignment } from "../hooks";
 import { useEffect, useState } from "react";
 
 export default function SubmissionMarking() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [student, setStudent] = useState({});
     const [submission, setSubmission] = useState({});
     const {assignments} = useAssignment();
@@ -47,8 +48,19 @@ export default function SubmissionMarking() {
         }))
     }
 
-    function handleSubmit() {
-
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const response = await fetch(`http://localhost:8000/submissions/${id}/`,{
+                method: "PUT",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(submission)
+            });
+        if (response.status === 200) {
+            navigate("/marking");
+        }
     }
 
     return (
@@ -125,7 +137,7 @@ export default function SubmissionMarking() {
                         <div>
                             <button
                                 type="button"
-                                className="w-full mt-7 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition"
+                                className="w-full mt-7 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition cursor-pointer"
                             >
                                 Use Auto Grading
                             </button>
@@ -146,7 +158,7 @@ export default function SubmissionMarking() {
 
                     <button
                         type="submit"
-                        className="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition"
+                        className="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition cursor-pointer"
                     >
                         Submit Grade
                     </button>

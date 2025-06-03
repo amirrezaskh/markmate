@@ -42,7 +42,7 @@ export default function About() {
                 </section>
 
                 <section>
-                    <h2 className="text-2xl font-semibold mb-2">👥 Who It's For</h2>
+                    <h2 className="text-2xl font-semibold mb-2">👥 Who It{"'"}s For</h2>
                     <p>
                         MarkMate is designed for educators, teaching assistants, and institutions seeking to reduce grading workload while maintaining flexibility and precision.
                     </p>

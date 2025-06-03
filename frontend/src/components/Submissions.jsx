@@ -5,7 +5,7 @@ export default function Submissions({currentAssignmentId, markingMode=false}) {
     const [submissions, setSubmissions] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
-    const assignmentId = currentAssignmentId !== null ? currentAssignmentId : id
+    const assignmentId = currentAssignmentId != null ? currentAssignmentId : id;
     const submissionsElements = submissions.map((submission, i) => (
         <li
             key={i}

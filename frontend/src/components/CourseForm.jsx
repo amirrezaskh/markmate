@@ -29,7 +29,6 @@ export default function CourseForm() {
                 },
                 body: JSON.stringify(course)
             });
-        console.log(response.status)
         if (response.status === 201) {
             changeCourse("reset");
             addCourse(course);
