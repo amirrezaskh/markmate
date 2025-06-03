@@ -20,7 +20,7 @@ export default function Assignments({courseAssignments=null, setCurrentAssignmen
 
     function handleClick(i) {
         if (setCurrentAssignmentId) {
-            setCurrentAssignmentId(i);
+            setCurrentAssignmentId(assignments[i].id);
         } else {
             navigate(`/assignment/${assignments[i].id}/`)
         }

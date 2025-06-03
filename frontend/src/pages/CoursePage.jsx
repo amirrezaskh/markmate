@@ -25,20 +25,22 @@ export default function CoursePage() {
     if (!userInfo) return null;
     const { role } = JSON.parse(userInfo);
     return (
-            <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
+            <div className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
                 <NavBar />
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                        {
-                            createView ? 
-                            <AssignmentForm toggleCreateView={toggleCreateView}/>
-                            : 
-                            <CourseDetail role={role} toggleCreateView={toggleCreateView} />
-                        }
-                    </section>
-                    <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                        <Assignments courseAssignments={assignments}/>
-                    </section>
+                <div className="min-h-screen">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+                            {
+                                createView ? 
+                                <AssignmentForm toggleCreateView={toggleCreateView}/>
+                                : 
+                                <CourseDetail role={role} toggleCreateView={toggleCreateView} />
+                            }
+                        </section>
+                        <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+                            <Assignments courseAssignments={assignments}/>
+                        </section>
+                    </div>
                 </div>
                 <Footer />
             </div>

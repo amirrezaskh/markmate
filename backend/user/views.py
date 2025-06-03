@@ -78,3 +78,14 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         submissions = Submission.objects.filter(student=student)
         serializer = SubmissionSerializer(submissions, many=True)
         return Response(serializer.data)
+    
+    @action(methods=['get'], detail=False, url_path="submission")
+    def get_submission(self, request, pk=None):
+        assignment_id = request.query_params.get('assignment_id')
+        student = request.user
+        try:
+            submission = Submission.objects.get(student=student, assignment_id=assignment_id)
+        except Submission.DoesNotExist:
+            return Response({"error": "No submission found"}, status=404)
+        serializer = SubmissionSerializer(submission)
+        return Response(serializer.data)

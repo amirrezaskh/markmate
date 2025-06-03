@@ -4,7 +4,7 @@ import { useAssignment } from "../hooks";
 export default function AssignmentDetail({ currentAssignmentId=null, openAssignmentView=false}) {
     const { assignments } = useAssignment(); 
     const { id } = useParams();
-    const assignment = currentAssignmentId !== null ? assignments[currentAssignmentId] : assignments.find(eachAssignment => eachAssignment.id == id);
+    const assignment = currentAssignmentId !== null ? assignments.find(eachAssignment => eachAssignment.id == currentAssignmentId) : assignments.find(eachAssignment => eachAssignment.id == id);
     if (!assignment) return <p className="text-gray-500">No assignment selected.</p>;
     const deadline = new Date(assignment.deadline);
 

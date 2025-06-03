@@ -47,6 +47,7 @@ class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     submission_file = models.FileField(max_length=255, upload_to=submission_file_path, blank=True, null=True)
     score = models.FloatField(default=0.0)
+    reasoning = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
