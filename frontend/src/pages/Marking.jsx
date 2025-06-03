@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router";
-import { NavBar, Footer, Assignments, MarkDetail } from "../components";
+import { NavBar, Footer, Assignments, MarkDetail, Submissions } from "../components";
 import { useEffect, useState } from "react";
+import { useAssignment } from "../hooks";
 
 export default function Marking() {
-    const [currentAssignmentId, setCurrentAssignmentId] = useState(0);
+    const { assignments } = useAssignment();
+    const [currentAssignmentId, setCurrentAssignmentId] = useState(assignments[0].id);
 
     const loggedIn = (sessionStorage.getItem("userInfo") !== null)
     const navigate = useNavigate();
@@ -13,6 +15,11 @@ export default function Marking() {
             navigate("/login")
         }
     }, [navigate, loggedIn])
+
+    const userInfo = sessionStorage.getItem("userInfo");
+    if (!userInfo) return null;
+    const { role } = JSON.parse(userInfo);
+
     return (
         <div>
             <NavBar />
@@ -24,9 +31,16 @@ export default function Marking() {
                         />
                     </section>
                     <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-                        <MarkDetail 
-                            currentAssignmentId={currentAssignmentId}
-                        />
+                        {role === "instructor" ?
+                            <Submissions 
+                                currentAssignmentId={currentAssignmentId}
+                                markingMode={true}
+                            />
+                        :
+                            <MarkDetail 
+                                currentAssignmentId={currentAssignmentId}
+                            />
+                        }        
                     </section>
                 </div>
             </div>

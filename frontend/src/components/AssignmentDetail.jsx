@@ -49,11 +49,7 @@ export default function AssignmentDetail({ currentAssignmentId=null, openAssignm
                         </a>
                     )}
                 </div>
-                
-                
             </div>
-            
-
         </div>
     )
 }

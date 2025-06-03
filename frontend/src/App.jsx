@@ -1,4 +1,4 @@
-import { Dashboard, Home, Login, SignUp, CoursesPage, AssignmentsPage, AboutPage, Marking, CoursePage, AssignmentPage } from "./pages";
+import { Dashboard, Home, Login, SignUp, CoursesPage, AssignmentsPage, AboutPage, Marking, CoursePage, AssignmentPage, SubmissionPage } from "./pages";
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CourseProvider, AssignmentProvider } from "./providers";
 import "./App.css";
@@ -20,6 +20,7 @@ function App() {
               <Route path="/marking" element={<Marking />}/>
               <Route path="/course/:id/" element={<CoursePage />}/>
               <Route path="/assignment/:id/" element={<AssignmentPage />}/>
+              <Route path="/submission/:id/" element={<SubmissionPage />}/>
             </Routes>
           </AssignmentProvider>
         </CourseProvider>

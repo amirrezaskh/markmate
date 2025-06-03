@@ -89,3 +89,5 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({"error": "No submission found"}, status=404)
         serializer = SubmissionSerializer(submission)
         return Response(serializer.data)
+    
+    
