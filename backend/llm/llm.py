@@ -123,7 +123,7 @@ class LLM:
         return text
     
     def extract_json_from_text(self, text: str):
-        pattern = r"(\{.*?\}|\[.*?\])"
+        pattern = r'\[\s*\{.*\}\s*\]'
         matches = re.findall(pattern, text, flags=re.DOTALL)
 
         for match in matches:
@@ -155,6 +155,9 @@ class LLM:
 
         try:
             parsed = self.extract_json_from_text(output)
+            for i in range(len(parsed)):
+                parsed[i]["score"] = 0
+                parsed[i]["reasoning"] = ""
         except ValueError as e:
             raise RuntimeError(f"Failed to parse JSON from LLM output: {e}")
         return parsed
