@@ -29,7 +29,7 @@ class AssignmentSerializer(ModelSerializer):
 
     class Meta:
         model = Assignment
-        fields = ['id', 'title', 'description', 'course', 'assignment_file',
+        fields = ['id', 'title', 'description', 'course', 'rubric', 'assignment_file',
                   'public_test_file', 'private_test_file', 'deadline', 'created_at', 'submissions']
 
     def get_submissions(self, obj):
@@ -39,10 +39,10 @@ class AssignmentSerializer(ModelSerializer):
 class SubmissionSerializer(ModelSerializer):
     class Meta:
         model = Submission
-        fields = ['id', 'student', 'assignment', 'submission_file', 'score', 'reasoning', 'created_at']
+        fields = ['id', 'student', 'assignment', 'submission_file', 'splits', 'score', 'reasoning', 'created_at']
 
 class AutoSubmissionSerializer(ModelSerializer):
     class Meta:
         model = Submission
-        fields = ['id', 'student', 'assignment', 'submission_file', 'score', 'reasoning', 'created_at']
+        fields = ['id', 'student', 'assignment', 'submission_file', 'splits', 'score', 'reasoning', 'created_at']
         read_only_fields = ['student']
