@@ -22,6 +22,7 @@ export default function AssignmentForm({toggleCreateView}) {
         {
             title: "",
             description: "",
+            rubric: "",
             deadline: ""
         }
     );
@@ -31,9 +32,10 @@ export default function AssignmentForm({toggleCreateView}) {
         e.preventDefault();
         let formData = new FormData();
         formData.append("title", assignment.title);
-        formData.append("description", new Date(assignment.deadline).toISOString());
+        formData.append("description", assignment.description);
+        formData.append("rubric", assignment.rubric);
         formData.append("course", id);
-        formData.append("deadline", assignment.deadline);
+        formData.append("deadline", new Date(assignment.deadline).toISOString());
         if (files.assignment_file) {
             formData.append("assignment_file", files.assignment_file);
         }
@@ -69,6 +71,12 @@ export default function AssignmentForm({toggleCreateView}) {
                 <div>
                     <label htmlFor="title" className="block mb-1 font-medium">Title</label>
                     <input 
+                        placeholder="[{
+                            problem: str
+                            criterion: str
+                            max_score: int
+                            description: str
+                        }]"
                         className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500" 
                         type="text" 
                         value={assignment.title}
@@ -87,6 +95,17 @@ export default function AssignmentForm({toggleCreateView}) {
                         onChange={changeAssignment}
                         name="description" 
                         id="description" 
+                    />
+                </div>
+                <div>
+                    <label htmlFor="rubric" className="block mb-1 font-medium">Rubric</label>
+                    <textarea 
+                        className="h-50 w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500" 
+                        type="text" 
+                        value={assignment.rubric}
+                        onChange={changeAssignment}
+                        name="rubric" 
+                        id="rubric" 
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

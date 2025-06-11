@@ -7,10 +7,53 @@ export default function SubmissionMarking() {
     const navigate = useNavigate();
     const [student, setStudent] = useState({});
     const [submission, setSubmission] = useState({});
+    const [gradingMode, setGradingMode] = useState(submission.splits && submission.splits.length > 0);
     const {assignments} = useAssignment();
     const assignment = assignments.find(eachAssignment => eachAssignment.id == id)
-    const submittedDate = new Date(submission.created_at);
-
+    const submittedDate = submission.created_at ? new Date(submission.created_at) : null;
+    
+    const splitElements = submission.splits?.map((split, i) => (
+        <div key={i} className="p-6 mb-6 rounded-xl shadow-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-bold mb-4">Question {i + 1}</h2>
+            <p className="dark:text-gray-300">{split["question"]}</p>
+            <div>
+                <label className="block my-3 font-semibold">Given Answer</label>
+                <p className="dark:text-gray-300">{split["answer"]}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label htmlFor="score" className="block my-3 font-semibold">Score</label>
+                    <input
+                        type="number"
+                        id={`score-${i}`}
+                        name="score"
+                        value={split["score"] || ''}
+                        onChange={(e) => changeSplit(i, "score", e.target.value)}
+                        className="w-full px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    />
+                </div>
+                <div className="flex items-end justify-end">
+                    <button
+                        type="button"
+                        className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition-all duration-150 ease-in-out cursor-pointer"
+                    >
+                        Use Auto Grading
+                    </button>
+                </div>
+            </div>
+            <div className="mt-4">
+                <label htmlFor="reasoning" className="block mb-1 font-semibold">Reasoning</label>
+                <textarea
+                    id={`reasoning-${i}`}
+                    name="reasoning"
+                    value={split["reasoning"] || ''}
+                    onChange={(e) => changeSplit(i, "reasoning", e.target.value)}
+                    rows={3}
+                    className="w-full px-4 py-2 resize-none rounded-md bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                />
+            </div>
+        </div>
+    ))
     useEffect(() => {
         (async () => {
             const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -22,6 +65,7 @@ export default function SubmissionMarking() {
                 }
             });
             const data = await response.json();
+            setGradingMode(data.splits && data.splits.length > 0); // Use `data`, not `submission`
             setSubmission(data);
         })();
     }, []);
@@ -41,12 +85,41 @@ export default function SubmissionMarking() {
         })();
     }, [submission.student]);
 
+    async function getSplits() {
+        const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        const response = await fetch(`http://localhost:8000/submissions/${id}/split/`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Token ${userInfo.token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        setSubmission(data);
+        setGradingMode(true);
+    }
+
     function changeSubmission(e) {
         setSubmission(prevSubmission => ({
             ...prevSubmission,
             [e.target.name]: e.target.value
         }))
     }
+
+    function changeSplit(index, key, value) {
+    setSubmission(prev => {
+        const updatedSplits = [...prev.splits];
+        updatedSplits[index] = {
+            ...updatedSplits[index],
+            [key]: value,
+        };
+        return {
+            ...prev,
+            splits: updatedSplits
+        };
+    });
+}
+
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -115,55 +188,28 @@ export default function SubmissionMarking() {
                             </a>
                         )}
                     <p className="">
-                        Submitted on: {submittedDate.toDateString()}
+                        Submitted on: {submittedDate?.toDateString()}
                     </p>
                 </div>
-
-                
-                        
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label htmlFor="score" className="block mb-1 font-semibold">Score</label>
-                            <input
-                                type="number"
-                                name="score"
-                                id="score"
-                                value={submission.score || ''}
-                                onChange={changeSubmission}
-                                className="w-full px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                            />
-                        </div>
-                        <div>
-                            <button
-                                type="button"
-                                className="w-full mt-7 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition cursor-pointer"
-                            >
-                                Use Auto Grading
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label htmlFor="reasoning" className="block mb-1 font-semibold">Reasoning</label>
-                        <textarea
-                            id="reasoning"
-                            name="reasoning"
-                            value={submission.reasoning || ''}
-                            onChange={changeSubmission}
-                            rows={10}
-                            className="w-full px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
-                        />
-                    </div>
-
+                {gradingMode ?
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {splitElements}
+                        <button
+                            type="submit"
+                            className="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition cursor-pointer"
+                        >
+                            Submit Grade
+                        </button>
+                    </form> 
+                    :
                     <button
-                        type="submit"
-                        className="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition cursor-pointer"
+                        onClick={() => getSplits()}
+                        type="button"
+                        className="w-full mt-7 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition cursor-pointer"
                     >
-                        Submit Grade
+                        Start Grading
                     </button>
-                </form>
-                
+                }
             </div>
         </div>
     )
