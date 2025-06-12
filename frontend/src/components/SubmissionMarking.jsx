@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router"
 import { useAssignment } from "../hooks";
 import { useEffect, useState } from "react";
 import LoadingButton from "./LoadingButton";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function SubmissionMarking() {
     const { id } = useParams();
@@ -202,7 +203,7 @@ export default function SubmissionMarking() {
                     <div className="flex flex-row gap-4">
                         {assignment.assignment_file && (
                             <a
-                                href={assignment.assignment_file}
+                                href={`${BASE_URL}${assignment.assignment_file}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-sky-600 font-semibold hover:underline block"
@@ -212,7 +213,7 @@ export default function SubmissionMarking() {
                         )}
                         {assignment.public_test_file && (
                             <a
-                                href={assignment.public_test_file}
+                                href={`${BASE_URL}${assignment.public_test_file}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-sky-600 font-semibold hover:underline block"
@@ -229,7 +230,7 @@ export default function SubmissionMarking() {
                     </p>
                     {submission.submission_file && (
                             <a
-                                href={submission.submission_file}
+                                href={`${BASE_URL}${submission.submission_file}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-sky-600 font-semibold hover:underline block"

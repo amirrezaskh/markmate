@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router";
 import { useAssignment } from "../hooks";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function AssignmentDetail({ currentAssignmentId=null, openAssignmentView=false}) {
     const { assignments } = useAssignment(); 
@@ -30,7 +31,7 @@ export default function AssignmentDetail({ currentAssignmentId=null, openAssignm
                 <div className="mb-4 space-y-2">
                     {assignment.assignment_file && (
                         <a
-                            href={assignment.assignment_file}
+                            href={`${BASE_URL}${assignment.assignment_file}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sky-600 font-semibold hover:underline block"
@@ -40,7 +41,7 @@ export default function AssignmentDetail({ currentAssignmentId=null, openAssignm
                     )}
                     {assignment.public_test_file && (
                         <a
-                            href={assignment.public_test_file}
+                            href={`${BASE_URL}${assignment.public_test_file}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sky-600 font-semibold hover:underline block"
