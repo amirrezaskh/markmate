@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router";
 import { useAssignment } from "../hooks";
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function AssignmentDetail({ currentAssignmentId=null, openAssignmentView=false}) {
     const { assignments } = useAssignment(); 

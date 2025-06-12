@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { FaUser, FaEnvelope, FaUserTag, FaBook, FaClipboardCheck, FaClipboardList, FaCheckCircle } from "react-icons/fa"
 import { Link } from "react-router"
 import { useAssignment, useCourse } from "../hooks"
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Main() {
     const { courses, loadCourses } = useCourse();

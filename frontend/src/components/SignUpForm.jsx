@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { useNavigate } from "react-router";
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function SignUpForm() {
     const [info, changeInfo] = useReducer(

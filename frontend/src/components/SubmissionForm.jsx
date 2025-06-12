@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAssignment } from "../hooks";
 import { useParams } from "react-router";
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function SubmissionForm() {
     const { id } = useParams();

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAssignment } from "../hooks"
 import ReactMarkdown from "react-markdown";
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function MarkDetail({ currentAssignmentId }) {
     const { assignments } = useAssignment();
