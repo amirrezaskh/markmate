@@ -82,3 +82,18 @@ class SubmissionViewSet(viewsets.ModelViewSet):
             return Response(SubmissionSerializer(submission).data, status=status.HTTP_200_OK)
         except requests.RequestException as e:
             return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    
+    @action(detail=True, methods=['POST'], url_path='grade')
+    def get_grade(self, request, pk=None):
+        submission = self.get_object()
+        question = request.data
+        try:
+            response = requests.post("http://localhost:8080/grade/", json={
+                "question": question,
+                "rubric": submission.assignment.rubric
+            })
+            response.raise_for_status()
+            return Response(response.json(), status=status.HTTP_200_OK)
+        except requests.RequestException as e:
+            return Response({"error": str(e)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+

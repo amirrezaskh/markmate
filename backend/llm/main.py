@@ -1,11 +1,13 @@
 import os
 import signal
 from llm import LLM
+from flask_cors import CORS
 from flask import Flask, request
 
 port = 8080
 llm = LLM()
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/split/", methods=['POST'])

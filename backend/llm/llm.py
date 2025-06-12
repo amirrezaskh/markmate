@@ -84,6 +84,7 @@ class LLM:
         4. Be objective, professional, and avoid guessing when information is missing.
         5. Do not skip any rubric item, even if the student's response is incomplete.
         6. Provide all grades in a structured JSON format.
+        8. The score of each criterion is out of 5.
 
         ---
 
@@ -96,17 +97,16 @@ class LLM:
         "grades": [
             {{
             "criterion": "Criterion 1 Name",
-            "score": 3,
-            "out_of": 5,
+            "score": 3,                                              
             "rationale": "Student explained the concept clearly but missed a key detail."
             }},
             {{
             "criterion": "Criterion 2 Name",
             "score": 4,
-            "out_of": 5,
             "rationale": "Good depth and supported by an example from the lecture notes."
             }}
         ],
+        "total_score": 7,
         "feedback_summary": "Overall, the student demonstrates good understanding with minor errors in explanation."
         }}
         """)
@@ -122,8 +122,7 @@ class LLM:
             text += page.extract_text()
         return text
     
-    def extract_json_from_text(self, text: str):
-        pattern = r'\[\s*\{.*\}\s*\]'
+    def extract_json_from_text(self, pattern, text: str):
         matches = re.findall(pattern, text, flags=re.DOTALL)
 
         for match in matches:
@@ -154,7 +153,8 @@ class LLM:
         })
 
         try:
-            parsed = self.extract_json_from_text(output)
+            pattern = r'\[\s*\{.*\}\s*\]'
+            parsed = self.extract_json_from_text(pattern, output)
             for i in range(len(parsed)):
                 parsed[i]["score"] = 0
                 parsed[i]["reasoning"] = ""
@@ -185,10 +185,11 @@ class LLM:
         response = self.llm.invoke(messages)
         return {"answer": response.content}
 
-    def grade_question(self, rubric, question):
+    def grade_question(self, question, rubric):
         result = self.graph.invoke({"question": question, "rubric": rubric})
         try:
-            parsed = self.extract_json_from_text(result["answer"])
+            pattern = r'\{.*"grades".*"feedback_summary".*\}'
+            parsed = self.extract_json_from_text(pattern, result["answer"])
         except ValueError as e:
             raise RuntimeError(f"Failed to parse JSON from LLM output: {e}")
         return parsed

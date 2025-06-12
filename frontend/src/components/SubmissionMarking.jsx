@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router"
 import { useAssignment } from "../hooks";
 import { useEffect, useState } from "react";
+import LoadingButton from "./LoadingButton";
 
 export default function SubmissionMarking() {
     const { id } = useParams();
@@ -8,6 +9,7 @@ export default function SubmissionMarking() {
     const [student, setStudent] = useState({});
     const [submission, setSubmission] = useState({});
     const [gradingMode, setGradingMode] = useState(submission.splits && submission.splits.length > 0);
+    const [loading, setLoading] = useState(false);
     const {assignments} = useAssignment();
     const assignment = assignments.find(eachAssignment => eachAssignment.id == id)
     const submittedDate = submission.created_at ? new Date(submission.created_at) : null;
@@ -33,12 +35,14 @@ export default function SubmissionMarking() {
                     />
                 </div>
                 <div className="flex items-end justify-end">
-                    <button
-                        type="button"
+                    <LoadingButton
+                        onClick={() => getGrades(i)}
+                        variant="success"
+                        loading={loading}
                         className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition-all duration-150 ease-in-out cursor-pointer"
                     >
                         Use Auto Grading
-                    </button>
+                    </LoadingButton>
                 </div>
             </div>
             <div className="mt-4">
@@ -48,7 +52,7 @@ export default function SubmissionMarking() {
                     name="reasoning"
                     value={split["reasoning"] || ''}
                     onChange={(e) => changeSplit(i, "reasoning", e.target.value)}
-                    rows={3}
+                    rows={10}
                     className="w-full px-4 py-2 resize-none rounded-md bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
             </div>
@@ -86,6 +90,7 @@ export default function SubmissionMarking() {
     }, [submission.student]);
 
     async function getSplits() {
+        setLoading(true);
         const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
         const response = await fetch(`http://localhost:8000/submissions/${id}/split/`, {
             method: "PUT",
@@ -97,6 +102,47 @@ export default function SubmissionMarking() {
         const data = await response.json();
         setSubmission(data);
         setGradingMode(true);
+        setLoading(false);
+    }
+
+    function formatGradesAndFeedback(grades, feedbackSummary) {
+        let feedbackText = grades.map(grade => {
+            return `• **${grade.criterion}** (Score: ${grade.score})\n  - ${grade.rationale}`;
+        }).join('\n\n');
+
+        feedbackText += `\n\n**Summary:**\n${feedbackSummary}`;
+        return feedbackText;
+    }
+
+    async function getGrades(i) {
+        setLoading(true)
+        const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        const response = await fetch(`http://localhost:8000/submissions/${id}/grade/`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${userInfo.token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(submission["splits"][i])
+        });
+        const data = await response.json();
+        setSubmission(prev => {
+            const updatedSplits = [...prev.splits];
+            updatedSplits[i] = {
+                ...updatedSplits[i],
+                score: data["total_score"],
+                reasoning: formatGradesAndFeedback(data["grades"], data["feedback_summary"])
+            };
+            const totalScore = updatedSplits.reduce((sum, split) => sum + (Number(split.score) || 0), 0);
+
+            return {
+                ...prev,
+                splits: updatedSplits,
+                score: totalScore
+            };
+        });
+        console.log(data);
+        setLoading(false);
     }
 
     function changeSubmission(e) {
@@ -113,9 +159,12 @@ export default function SubmissionMarking() {
             ...updatedSplits[index],
             [key]: value,
         };
+        const totalScore = updatedSplits.reduce((sum, split) => sum + (Number(split.score) || 0), 0);
+
         return {
             ...prev,
-            splits: updatedSplits
+            splits: updatedSplits,
+            score: totalScore
         };
     });
 }
@@ -123,13 +172,14 @@ export default function SubmissionMarking() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        const { submission_file, ...safeSubmission } = submission;
         const response = await fetch(`http://localhost:8000/submissions/${id}/`,{
                 method: "PUT",
                 headers: {
                     "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(submission)
+                body: JSON.stringify(safeSubmission)
             });
         if (response.status === 200) {
             navigate("/marking");
@@ -194,21 +244,38 @@ export default function SubmissionMarking() {
                 {gradingMode ?
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {splitElements}
-                        <button
-                            type="submit"
-                            className="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition cursor-pointer"
-                        >
-                            Submit Grade
-                        </button>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="score" className="block my-3 font-semibold">Final Score</label>
+                                <input
+                                    type="number"
+                                    id="score"
+                                    name="score"
+                                    value={submission.score}
+                                    onChange={changeSubmission}
+                                    className="w-full px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                />
+                            </div>
+                            <div className="flex items-end justify-end">
+                                <button
+                                    type="submit"
+                                    className="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-md font-semibold transition cursor-pointer"
+                                >
+                                    Submit Grade
+                                </button>
+                            </div>
+                        </div>
+                        
                     </form> 
                     :
-                    <button
+                    <LoadingButton
+                        variant="success"
+                        loading={loading}
                         onClick={() => getSplits()}
-                        type="button"
                         className="w-full mt-7 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold transition cursor-pointer"
                     >
                         Start Grading
-                    </button>
+                    </LoadingButton>
                 }
             </div>
         </div>
