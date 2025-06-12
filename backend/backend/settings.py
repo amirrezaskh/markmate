@@ -148,3 +148,5 @@ CORS_ALLOW_CREDENTIALS = True
 
 MEDIA_ROOT = BASE_DIR
 MEDIA_URL = '/media/'
+
+LLM_URL = "http://localhost:8080"

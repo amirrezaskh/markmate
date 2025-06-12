@@ -1,15 +1,17 @@
 import json
 import requests
+from django.conf import settings
+from rest_framework import status
+from user.models import CustomUser
 from django.shortcuts import render
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import viewsets
+from user.serializers import CustomUserSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import Course, Enrollment, Assignment, Submission
-from user.models import CustomUser
-from user.serializers import CustomUserSerializer
 from .serializers import CourseSerializer, EnrollmentSerializer, AssignmentSerializer, SubmissionSerializer
-from rest_framework import status
+
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -71,7 +73,7 @@ class SubmissionViewSet(viewsets.ModelViewSet):
     def get_splits(self, request, pk=None):
         submission = self.get_object()
         try:
-            response = requests.post("http://localhost:8080/split/", json={
+            response = requests.post(f"{settings.LLM_URL}/split/", json={
                 "assignment_path": submission.assignment.assignment_file.path,
                 "solution_path": submission.assignment.solution_file.path,
                 "submission_path": submission.submission_file.path,
@@ -89,7 +91,7 @@ class SubmissionViewSet(viewsets.ModelViewSet):
         submission = self.get_object()
         question = request.data
         try:
-            response = requests.post("http://localhost:8080/grade/", json={
+            response = requests.post(f"{settings.LLM_URL}/grade/", json={
                 "question": question,
                 "rubric": submission.assignment.rubric
             })
