@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function Submissions({currentAssignmentId, markingMode=false}) {
     const [submissions, setSubmissions] = useState([]);
@@ -33,6 +34,9 @@ export default function Submissions({currentAssignmentId, markingMode=false}) {
     function handleClick(i) {
         if (markingMode) {
             navigate(`/submission/${submissions[i].id}/`)
+        } else {
+            const fileUrl = `${BASE_URL}${submissions[i].submission_file}`;
+            window.open(fileUrl, "_blank");
         }
     }
     return (

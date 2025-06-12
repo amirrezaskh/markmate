@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { FaBook, FaClipboardList, FaCheckCircle } from "react-icons/fa"
+import { FaUser, FaEnvelope, FaUserTag, FaBook, FaClipboardCheck, FaClipboardList, FaCheckCircle } from "react-icons/fa"
 import { Link } from "react-router"
 import { useAssignment, useCourse } from "../hooks"
 
@@ -66,6 +66,10 @@ export default function Main() {
         </li>
     ))
 
+    const userInfo = sessionStorage.getItem("userInfo");
+    if (!userInfo) return null;
+    const { username, email, role } = JSON.parse(userInfo);
+
     return (
         <main className="min-h-[calc(100vh-77px)] bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-8">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -103,8 +107,45 @@ export default function Main() {
                 </section>
 
                 <section className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-900">
-                    <h2 className="text-2xl font-bold mb-5">Profile Info</h2>
-                    {/* Add profile details here */}
+                    <h2 className="text-2xl font-bold mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">Profile Info</h2>
+
+                    <div className="flex items-center space-x-6 mb-6">
+                        <div className="w-20 h-20 rounded-full bg-sky-200 dark:bg-sky-700 flex items-center justify-center text-sky-600 dark:text-sky-300 text-3xl font-bold">
+                            {username?.[0].toUpperCase()}
+                        </div>
+                        <div>
+                            <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">{username}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Welcome back!</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4 text-gray-700 dark:text-gray-300">
+                        <div className="flex items-center gap-3">
+                            <FaUser className="text-yellow-500" />
+                            <span className="font-semibold w-40">Username:</span>
+                            <span className="flex-1 truncate">{username}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaEnvelope className="text-red-500" />
+                            <span className="font-semibold w-40">Email:</span>
+                            <span className="flex-1 truncate">{email}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaUserTag className="text-purple-500" />
+                            <span className="font-semibold w-40">Role:</span>
+                            <span className="flex-1 capitalize">{role}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaBook className="text-sky-500" />
+                            <span className="font-semibold w-40">Courses Enrolled:</span>
+                            <span className="flex-1">{courses.length}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaClipboardCheck className="text-green-500" />
+                            <span className="font-semibold w-40">Assignments Submitted:</span>
+                            <span className="flex-1">{submissions.length}</span>
+                        </div>
+                    </div>
                 </section>
             </div>
         </main>
