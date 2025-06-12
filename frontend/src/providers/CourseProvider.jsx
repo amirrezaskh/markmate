@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { CourseContext } from "../contexts";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function CourseProvider({children}) {
     const [courses, setCourses] = useState([]);
     
     async function loadCourses () {
-        const response = await fetch("http://localhost:8000/users/courses/",{
+        const response = await fetch(`${BASE_URL}/users/courses/`,{
             method: "GET",
             headers: {
                 "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

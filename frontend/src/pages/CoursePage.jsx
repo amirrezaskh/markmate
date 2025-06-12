@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { AssignmentForm, Assignments, CourseDetail, NavBar, Footer } from "../components"
 import { useParams } from "react-router";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function CoursePage() {
     const [createView, toggleCreateView] = useReducer(createView => !createView, false)
@@ -9,7 +10,7 @@ export default function CoursePage() {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:8000/courses/${id}/assignments/`,{
+            const response = await fetch(`${BASE_URL}/courses/${id}/assignments/`,{
                 method: "GET",
                 headers: {
                     "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

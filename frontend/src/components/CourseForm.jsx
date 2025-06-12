@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react"
 import { useCourse } from "../hooks";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function CourseForm() {
     const {addCourse} = useCourse()
@@ -21,7 +22,7 @@ export default function CourseForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await fetch("http://localhost:8000/users/course/",{
+        const response = await fetch(`${BASE_URL}/users/course/`,{
                 method: "POST",
                 headers: {
                     "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

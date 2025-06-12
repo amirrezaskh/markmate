@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { useNavigate } from "react-router";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function SignInForm() {
     const [info, changeInfo] = useReducer(
@@ -12,7 +13,7 @@ export default function SignInForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await fetch("http://localhost:8000/login/", {
+        const response = await fetch(`${BASE_URL}/login/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(info),

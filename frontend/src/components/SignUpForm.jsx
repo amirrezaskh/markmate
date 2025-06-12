@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import { useNavigate } from "react-router";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function SignUpForm() {
     const [info, changeInfo] = useReducer(
@@ -29,7 +30,7 @@ export default function SignUpForm() {
             role: info.role,
             password: info.password
         }
-        const response = await fetch("http://localhost:8000/users/",{
+        const response = await fetch(`${BASE_URL}/users/`,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

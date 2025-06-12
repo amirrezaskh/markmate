@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { useParams } from "react-router";
 import { useAssignment } from "../hooks";
+const BASE_URL = import.meta.env.BACKEND_URL;
 
 export default function AssignmentForm({toggleCreateView}) {
     const { loadAssignments } = useAssignment();
@@ -51,7 +52,7 @@ export default function AssignmentForm({toggleCreateView}) {
             formData.append("private_test_file", files.private_test_file);
         }
 
-        await fetch(`http://localhost:8000/assignments/`, {
+        await fetch(`${BASE_URL}/assignments/`, {
             method: "POST",
             headers: {
                 "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`

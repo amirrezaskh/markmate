@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router"
 import { useAssignment } from "../hooks";
 import { useEffect, useState } from "react";
 import LoadingButton from "./LoadingButton";
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.BACKEND_URL;
 
 export default function SubmissionMarking() {
     const { id } = useParams();
@@ -62,7 +62,7 @@ export default function SubmissionMarking() {
     useEffect(() => {
         (async () => {
             const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-            const response = await fetch(`http://localhost:8000/submissions/${id}`, {
+            const response = await fetch(`${BASE_URL}/submissions/${id}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Token ${userInfo.token}`,
@@ -78,7 +78,7 @@ export default function SubmissionMarking() {
     useEffect(() => {
         (async () => {
             const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-            const response = await fetch(`http://localhost:8000/users/${submission.student}`, {
+            const response = await fetch(`${BASE_URL}/users/${submission.student}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Token ${userInfo.token}`,
@@ -93,7 +93,7 @@ export default function SubmissionMarking() {
     async function getSplits() {
         setLoading(true);
         const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-        const response = await fetch(`http://localhost:8000/submissions/${id}/split/`, {
+        const response = await fetch(`${BASE_URL}/submissions/${id}/split/`, {
             method: "PUT",
             headers: {
                 "Authorization": `Token ${userInfo.token}`,
@@ -118,7 +118,7 @@ export default function SubmissionMarking() {
     async function getGrades(i) {
         setLoading(true)
         const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-        const response = await fetch(`http://localhost:8000/submissions/${id}/grade/`, {
+        const response = await fetch(`${BASE_URL}/submissions/${id}/grade/`, {
             method: "POST",
             headers: {
                 "Authorization": `Token ${userInfo.token}`,
@@ -173,7 +173,7 @@ export default function SubmissionMarking() {
     async function handleSubmit(e) {
         e.preventDefault();
         const { submission_file, ...safeSubmission } = submission;
-        const response = await fetch(`http://localhost:8000/submissions/${id}/`,{
+        const response = await fetch(`${BASE_URL}/submissions/${id}/`,{
                 method: "PUT",
                 headers: {
                     "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

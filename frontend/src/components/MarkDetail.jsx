@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAssignment } from "../hooks"
 import ReactMarkdown from "react-markdown";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function MarkDetail({ currentAssignmentId }) {
     const { assignments } = useAssignment();
@@ -23,7 +24,7 @@ export default function MarkDetail({ currentAssignmentId }) {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:8000/users/submission/?assignment_id=${currentAssignmentId}`,{
+            const response = await fetch(`${BASE_URL}/users/submission/?assignment_id=${currentAssignmentId}`,{
                 method: "GET",
                 headers: {
                     "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

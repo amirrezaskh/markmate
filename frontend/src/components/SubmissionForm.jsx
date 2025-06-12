@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAssignment } from "../hooks";
 import { useParams } from "react-router";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function SubmissionForm() {
     const { id } = useParams();
@@ -11,7 +12,7 @@ export default function SubmissionForm() {
         let formData = new FormData();
         formData.append("file", file);
         formData.append("assignment", id);
-        await fetch("http://localhost:8000/users/submit-submission/", {
+        await fetch(`${BASE_URL}/users/submit-submission/`, {
             method: "POST",
             headers: {
                 "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`

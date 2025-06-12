@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { AssignmentContext } from "../contexts";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function AssignmentProvider({children}) {
     const [assignments, setAssignments] = useState([]);
     
     async function loadAssignments() {
-        const response = await fetch("http://localhost:8000/users/assignments/",{
+        const response = await fetch(`${BASE_URL}/users/assignments/`,{
             method: "GET",
             headers: {
                 "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

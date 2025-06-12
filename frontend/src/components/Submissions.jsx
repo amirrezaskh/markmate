@@ -19,7 +19,7 @@ export default function Submissions({currentAssignmentId, markingMode=false}) {
     ));
     useEffect(() => {
             (async () => {
-                const response = await fetch(`http://localhost:8000/assignments/${assignmentId}/submissions/`,{
+                const response = await fetch(`${BASE_URL}/assignments/${assignmentId}/submissions/`,{
                     method: "GET",
                     headers: {
                         "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,

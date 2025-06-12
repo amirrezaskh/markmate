@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { FaUser, FaEnvelope, FaUserTag, FaBook, FaClipboardCheck, FaClipboardList, FaCheckCircle } from "react-icons/fa"
 import { Link } from "react-router"
 import { useAssignment, useCourse } from "../hooks"
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function Main() {
     const { courses, loadCourses } = useCourse();
@@ -22,7 +23,7 @@ export default function Main() {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch("http://localhost:8000/users/submissions/",{
+            const response = await fetch(`${BASE_URL}/users/submissions/`,{
                 method: "GET",
                 headers: {
                     "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`,
