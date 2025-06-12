@@ -19,6 +19,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         user = token.user
         return Response({
             'token': token.key,
+            'email': user.email,
             'username': user.username,
             'role': user.role
         })
