@@ -33,7 +33,6 @@ export default function MarkDetail({ currentAssignmentId }) {
             if (response.status != 404) {
                 const data = await response.json()
                 setSubmission(data);
-                console.log(submission);
             }
             
         })();

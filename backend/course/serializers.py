@@ -29,7 +29,7 @@ class AssignmentSerializer(ModelSerializer):
 
     class Meta:
         model = Assignment
-        fields = ['id', 'title', 'description', 'course', 'rubric', 'assignment_file',
+        fields = ['id', 'title', 'description', 'course', 'rubric', 'assignment_file', 'solution_file',
                   'public_test_file', 'private_test_file', 'deadline', 'created_at', 'submissions']
 
     def get_submissions(self, obj):

@@ -142,7 +142,6 @@ export default function SubmissionMarking() {
                 score: totalScore
             };
         });
-        console.log(data);
         setLoading(false);
     }
 
@@ -195,13 +194,13 @@ export default function SubmissionMarking() {
                 </h1>
                 <div className="border-b-2 border-gray-300 dark:border-gray-700 pb-4 mb-5">
                     <h1 className="font-bold text-xl mb-4">
-                        {assignment.title}
+                        {assignment?.title}
                     </h1>
                     <p className="text-gray-700 dark:text-gray-300 mb-4">
-                        {assignment.description}
+                        {assignment?.description}
                     </p>
                     <div className="flex flex-row gap-4">
-                        {assignment.assignment_file && (
+                        {assignment?.assignment_file && (
                             <a
                                 href={`${BASE_URL}${assignment.assignment_file}`}
                                 target="_blank"
@@ -211,7 +210,7 @@ export default function SubmissionMarking() {
                                 Assignment File
                             </a>
                         )}
-                        {assignment.public_test_file && (
+                        {assignment?.public_test_file && (
                             <a
                                 href={`${BASE_URL}${assignment.public_test_file}`}
                                 target="_blank"

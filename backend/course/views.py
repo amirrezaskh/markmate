@@ -73,6 +73,7 @@ class SubmissionViewSet(viewsets.ModelViewSet):
         try:
             response = requests.post("http://localhost:8080/split/", json={
                 "assignment_path": submission.assignment.assignment_file.path,
+                "solution_path": submission.assignment.solution_file.path,
                 "submission_path": submission.submission_file.path,
                 "rubric": submission.assignment.rubric
             })

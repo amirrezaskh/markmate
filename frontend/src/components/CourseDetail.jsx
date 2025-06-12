@@ -5,7 +5,20 @@ export default function CourseDetail({currentCourseId=null, role="student", togg
     const {courses} = useCourse();
     const { id } = useParams();
     let course = currentCourseId !== null ? courses[currentCourseId] : courses.find(item => item.id == id);
-    if (!course) return <p className="text-gray-500">No course selected.</p>;
+    if (!course) return (
+        <div className="flex flex-row justify-between">
+            <p className="text-gray-500">No course selected.</p>
+            {
+                courses.length == 0 ?
+                <button onClick={toggleCreateView} className="text-sm sm:text-base bg-sky-600 hover:bg-sky-700 text-white px-3 py-1 rounded-md transition cursor-pointer">
+                    Create
+                </button>
+                :
+                null
+            }
+            
+        </div>
+    );
 
     return (
         <div>

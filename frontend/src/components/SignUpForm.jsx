@@ -29,7 +29,6 @@ export default function SignUpForm() {
             role: info.role,
             password: info.password
         }
-        console.log(data)
         const response = await fetch("http://localhost:8000/users/",{
             method: "POST",
             headers: {
@@ -38,10 +37,9 @@ export default function SignUpForm() {
             body: JSON.stringify(data)
         });
 
-        if (response.status === 200) {
+        if (response.status === 201) {
             navigate("/login");
         } else {
-            console.log(response)
             toggleTryMessage();
         }
     }

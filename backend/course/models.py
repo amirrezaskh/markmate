@@ -23,6 +23,8 @@ class Enrollment(models.Model):
 def assignment_file_path(instance, filename):
     return os.path.join('files', 'assignments', str(instance.course.id), str(instance.title), filename)
 
+def solution_file_path(instance, filename):
+    return os.path.join('files', 'solutions', str(instance.course.id), str(instance.title), filename)
 
 def submission_file_path(instance, filename):
     return os.path.join('files', 'submissions', str(instance.assignment.id), str(instance.student.id), filename)
@@ -34,6 +36,7 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False, blank=False)
     rubric = models.JSONField(max_length=10000, blank=False, null=False)
     assignment_file = models.FileField(max_length=255, upload_to=assignment_file_path, blank=True, null=True)
+    solution_file = models.FileField(max_length=255, upload_to=solution_file_path, blank=True, null=True)
     public_test_file = models.FileField(max_length=255, upload_to=assignment_file_path, blank=True, null=True)
     private_test_file = models.FileField(max_length=255, upload_to=assignment_file_path, blank=True, null=True)
     deadline = models.DateTimeField()

@@ -41,6 +41,9 @@ class LLM:
 
         Assignment Questions:
         {assignment}
+                                                         
+        Assignment Solution:
+        {solution}
 
         Student Submission:
         {submission}
@@ -52,6 +55,7 @@ class LLM:
         Return a JSON list where each item includes:
         - question_title
         - question
+        - solution
         - answer
         """)
 
@@ -65,7 +69,7 @@ class LLM:
         **Course Context:**
         {course_context}
 
-        **Question and Student's Submission:**
+        **Question, Solution, and Student's Submission:**
         {question}
 
         **Grading Rubric:**
@@ -132,8 +136,9 @@ class LLM:
                 continue
         raise ValueError("No valid JSON found in text")
 
-    def split(self, assignment_path, submission_path, rubric):
+    def split(self, assignment_path, solution_path, submission_path, rubric):
         assignment_text = self.read_path(assignment_path)
+        solution_text = self.read_path(solution_path)
         submission_text = self.read_path(submission_path)
 
         titles = []
@@ -148,6 +153,7 @@ class LLM:
 
         output = split_chain.run({
             "assignment": assignment_text,
+            "solution": solution_text,
             "submission": submission_text,
             "titles": titles
         })

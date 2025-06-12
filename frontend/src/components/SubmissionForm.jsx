@@ -11,7 +11,7 @@ export default function SubmissionForm() {
         let formData = new FormData();
         formData.append("file", file);
         formData.append("assignment", id);
-        await fetch("http://localhost:8000/users/submission/", {
+        await fetch("http://localhost:8000/users/submit-submission/", {
             method: "POST",
             headers: {
                 "Authorization": `Token ${JSON.parse(sessionStorage.getItem("userInfo")).token}`

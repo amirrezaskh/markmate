@@ -57,7 +57,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
-    @action(methods=['post'], detail=False, url_path="submission")
+    @action(methods=['post'], detail=False, url_path="submit-submission")
     def post_submission(self, request, format=None):
         serializer = AutoSubmissionSerializer(data=request.data)
         if serializer.is_valid():

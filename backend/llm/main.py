@@ -13,9 +13,10 @@ CORS(app)
 @app.route("/split/", methods=['POST'])
 def split():
     assignment_path = request.get_json()["assignment_path"]
+    solution_path = request.get_json()["solution_path"]
     submission_path = request.get_json()["submission_path"]
     rubric = request.get_json()["rubric"]
-    return llm.split(assignment_path, submission_path, rubric)
+    return llm.split(assignment_path, solution_path, submission_path, rubric)
 
 
 @app.route("/doc/", methods=['POST'])

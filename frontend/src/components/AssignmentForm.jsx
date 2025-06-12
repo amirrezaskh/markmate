@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useAssignment } from "../hooks";
 
 export default function AssignmentForm({toggleCreateView}) {
+    const { loadAssignments } = useAssignment();
     const [files, addFile] = useReducer(
         (files, e) => ({
             ...files,
@@ -10,6 +11,7 @@ export default function AssignmentForm({toggleCreateView}) {
         }),
         {
             assignment_file: null,
+            submission_file: null,
             public_test_file: null,
             private_test_file: null
         }
@@ -39,15 +41,14 @@ export default function AssignmentForm({toggleCreateView}) {
         if (files.assignment_file) {
             formData.append("assignment_file", files.assignment_file);
         }
+        if (files.submission_file) {
+            formData.append("submission_file", files.submission_file);
+        }
         if (files.public_test_file) {
             formData.append("public_test_file", files.public_test_file);
         }
         if (files.private_test_file) {
             formData.append("private_test_file", files.private_test_file);
-        }
-
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ':', pair[1]);
         }
 
         await fetch(`http://localhost:8000/assignments/`, {
@@ -57,6 +58,8 @@ export default function AssignmentForm({toggleCreateView}) {
             },
             body: formData
         });
+
+        await loadAssignments();
 
     }
     return (
@@ -70,13 +73,7 @@ export default function AssignmentForm({toggleCreateView}) {
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                     <label htmlFor="title" className="block mb-1 font-medium">Title</label>
-                    <input 
-                        placeholder="[{
-                            problem: str
-                            criterion: str
-                            max_score: int
-                            description: str
-                        }]"
+                    <input
                         className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500" 
                         type="text" 
                         value={assignment.title}
@@ -99,7 +96,13 @@ export default function AssignmentForm({toggleCreateView}) {
                 </div>
                 <div>
                     <label htmlFor="rubric" className="block mb-1 font-medium">Rubric</label>
-                    <textarea 
+                    <textarea
+                        placeholder="[{
+    problem: str
+    criterion: str
+    max_score: int
+    description: str
+}]" 
                         className="h-50 w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500" 
                         type="text" 
                         value={assignment.rubric}
@@ -108,7 +111,7 @@ export default function AssignmentForm({toggleCreateView}) {
                         id="rubric" 
                     />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label
                         htmlFor="assignment_file"
@@ -119,6 +122,21 @@ export default function AssignmentForm({toggleCreateView}) {
                         <input
                         id="assignment_file"
                         name="assignment_file"
+                        type="file"
+                        onChange={addFile}
+                        className="block w-full text-sm text-gray-900 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-sky-600 file:text-white hover:file:bg-sky-700 cursor-pointer"
+                        />
+                    </div>
+                    <div>
+                        <label
+                        htmlFor="submission_file"
+                        className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                        >
+                        Submission File
+                        </label>
+                        <input
+                        id="submission_file"
+                        name="submission_file"
                         type="file"
                         onChange={addFile}
                         className="block w-full text-sm text-gray-900 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-sky-600 file:text-white hover:file:bg-sky-700 cursor-pointer"
