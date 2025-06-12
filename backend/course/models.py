@@ -49,7 +49,6 @@ class Submission(models.Model):
     submission_file = models.FileField(max_length=255, upload_to=submission_file_path, blank=True, null=True)
     splits = models.JSONField(max_length=30000, blank=True, null=True, default=list)
     score = models.FloatField(default=0.0)
-    reasoning = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
