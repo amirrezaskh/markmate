@@ -14,7 +14,7 @@ export default function AssignmentsPage() {
         (async () => {
             await loadAssignments();
         })();
-    }, [assignments]);
+    }, []);
 
     useEffect(() => {
         if (!loggedIn) {

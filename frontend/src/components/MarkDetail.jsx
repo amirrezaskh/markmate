@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAssignment } from "../hooks"
+import ReactMarkdown from "react-markdown";
 
 export default function MarkDetail({ currentAssignmentId }) {
     const { assignments } = useAssignment();
@@ -13,7 +14,9 @@ export default function MarkDetail({ currentAssignmentId }) {
             </div>
             <div>
                 <label className="block my-3 font-semibold">Reason:</label>
-                <p className="dark:text-gray-300">{split["reasoning"]}</p>
+                <div className="dark:text-gray-300 whitespace-pre-wrap prose dark:prose-invert max-w-none">
+                    <ReactMarkdown>{split["reasoning"]}</ReactMarkdown>
+                </div>
             </div>
         </div>
     ))

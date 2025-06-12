@@ -19,7 +19,7 @@ export default function CourseDetail({currentCourseId=null, role="student", togg
                     null
                 }
             </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-4 pb-2">{course.description}</p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4 pb-2 whitespace-pre-wrap">{course.description}</p>
             {
                 openCourseView ?
                 <Link to={`/course/${course.id}`} className="text-sky-600 hover:scale-105">

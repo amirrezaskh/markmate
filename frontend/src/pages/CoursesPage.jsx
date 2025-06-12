@@ -18,7 +18,7 @@ export default function CoursesPage() {
         (async () => {
             await loadCourses();
         })();
-    }, [courses]);
+    }, []);
 
     useEffect(() => {
         if (!loggedIn) {
