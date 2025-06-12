@@ -24,7 +24,7 @@ export default function Marking() {
         <div>
             <NavBar />
             <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <section className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
                         <Assignments 
                             setCurrentAssignmentId={setCurrentAssignmentId}

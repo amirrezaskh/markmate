@@ -68,7 +68,7 @@ export default function Main() {
 
     const userInfo = sessionStorage.getItem("userInfo");
     if (!userInfo) return null;
-    const { username, email, role } = JSON.parse(userInfo);
+    const { first_name, username, email, role } = JSON.parse(userInfo);
 
     return (
         <main className="min-h-[calc(100vh-77px)] bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-8">
@@ -114,7 +114,7 @@ export default function Main() {
                             {username?.[0].toUpperCase()}
                         </div>
                         <div>
-                            <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">{username}</p>
+                            <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">{first_name}</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">Welcome back!</p>
                         </div>
                     </div>
