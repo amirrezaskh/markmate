@@ -17,7 +17,6 @@ export default function MarkDetail({ currentAssignmentId }) {
             </div>
         </div>
     ))
-    console.log(splitElements);
 
     useEffect(() => {
         (async () => {
@@ -48,13 +47,15 @@ export default function MarkDetail({ currentAssignmentId }) {
             {
                     submission != {} ?
                     (
+                        submission?.splits?.length > 0 ?
                         <div>
                             <p className="font-semibold text-gray-700 dark:text-gray-300 mb-4 pb-2">Total Score: {submission.score}</p>
                             <div>
                                 {splitElements}
                             </div>
-                            
                         </div>
+                        :
+                        <p className="text-gray-700 dark:text-gray-300 mb-4 pb-2">Not graded yet.</p>
                     )
                     :
                     (
