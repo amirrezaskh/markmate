@@ -36,7 +36,7 @@ export default function About() {
                         <li><strong>Frontend:</strong> React + Tailwind CSS</li>
                         <li><strong>Backend:</strong> Django + Django REST Framework</li>
                         <li><strong>Database:</strong> PostgreSQL</li>
-                        <li><strong>AI Tools:</strong> Language Models for non-code auto-grading</li>
+                        <li><strong>AI Tools:</strong>  LangChain, LangGraph, RAG, and OCR</li>
                         <li><strong>Dev Tools:</strong> Docker, REST APIs, GitHub</li>
                     </ul>
                 </section>
