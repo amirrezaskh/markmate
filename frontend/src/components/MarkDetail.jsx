@@ -7,9 +7,9 @@ export default function MarkDetail({ currentAssignmentId }) {
     const [submission, setSubmission] = useState({})
     const splitElements = submission.splits?.map((split, i) => (
         <div key={i} className="p-6 mb-6 rounded-xl shadow-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <h2 className="text-lg font-bold mb-4">Question {i + 1}</h2>
-                <h2 className="text-lg font-bold mb-4">Score: {split["score"]}</h2>
+            <div className="flex flex-row justify-between">
+                <h2 className="text-lg font-bold mb-4 text-sky-600">Question {i + 1}</h2>
+                <h2 className="text-lg font-bold mb-4 text-sky-600">Score: {split["score"]}</h2>
             </div>
             <div>
                 <label className="block my-3 font-semibold">Reason:</label>
